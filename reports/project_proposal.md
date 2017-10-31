@@ -1,5 +1,6 @@
 # Evacuation
 
+<<<<<<< HEAD
 Adam Yesvotny, Changjun Lim
 
 [abstract]
@@ -28,3 +29,22 @@ Varas, Cornejo, Mainemer, Toldeo, Rogan, Munoz and Valdivia simulate the behavio
 Lo, S. M., Huang, H. C., Wang, P., & Yuen, K. K. (2006). A game theory based exit selection model for evacuation. Fire Safety Journal, 41(5), 364-369.
 
 Lo, Huang, Wang and Yuen integrate non-cooperative game theory with evacuation model to study the behavioral reation of the evacuees. Their non-cooperative game theory model has been established to test how how the evacuation pattern will be affected by rational interaction between evacuees. In their model, evacuees perceive the actions of others and the environmental condition and decide their escape route. They fuind the mixed-strategry _Nash Equilibrium_ for the game which describes the congestion states of exits. They suggest to examine the effect of familiarity and 'grouping' effect on further studies.
+=======
+## Experiments
+The original research paper ran multiple experiments that we would like to replicate.
+First, a single exit with a large crowd. This will let us validate our model matches the original paper.
+
+We want to extend our software to allow arbitrary map input, so that we can experiment with different environments, including a widened corridor, multiple doors, etc.
+
+The original paper implemented herding behavior and low visibility, but these are probably out of scope.
+
+Our biggest technical risk is 1. making a usable physics simulation, 2. making agents have goals. After discussing the problems with peers and reading on the internet, we concluded that making a physics simulation is feasible, and that the agents can have simple goals while still creating interesting phenomena.
+
+The original paper has very effective data visualization that we want to replicate and learn from.
+
+![Sample Output](media/sampleOutput.png)
+Possible output graphs.
+
+http://angel.elte.hu/panic/
+http://angel.elte.hu/panic/pdf/panicLetter.pdf
+>>>>>>> a2acb0dfbddff9565bd16bbf572db150ee7cdf04

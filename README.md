@@ -1,2 +1,2 @@
 # Evacuation
-Agent based modeling of paniced crowds
+Agent based modeling of panicked crowds
