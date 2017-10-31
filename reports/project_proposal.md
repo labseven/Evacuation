@@ -1,20 +1,24 @@
 # Evacuation
 
-Adam Yesvotny, Changjun Lim
+Adam Novotny, Changjun Lim
 
 [abstract]
 
+<<<<<<< HEAD
 We will recreate the model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, in the evacuation process. There have been many approaches to describe the evacuation process, from a celluar automaton model [2] and a game theory [3] to an agent based model and a physical model [1]. We will replicate the model in which there is a single exit with a large crowd and visualize it. We then try to extend the model by inserting some barriers in front of a door and observe the changes in the evacuation time.
+=======
+We will recreate the model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, in the evacuation process. There have been many approaches to describe the evacuation process, from a cellular automaton model [2] and a game theory [3] to a physical modeling [1].
+>>>>>>> 515dd0c179b9ca0ca975f0d08999d72f93d4fbc8
 
 ## Experiments
 The original research paper ran multiple experiments that we would like to replicate.
-First, a single exit with a large crowd. This will let us validate our model matches the original paper.
+First, a single exit with a large crowd. This will let us validate that our model matches the original paper.
 
-We want to extend our software to allow arbitrary map input, so that we can experiment with different environments, including a widened corridor, multiple doors, etc.
+We want to extend our software to allow arbitrary map input, so that we can experiment with different environments, including a widened corridor, multiple doors, etc. We want to try to replicate the findings of a different model, in which placing a column in front of the exit decreased evacuation times.
 
 The original paper implemented herding behavior and low visibility, but these are probably out of scope.
 
-Our biggest technical risk is 1. making a usable physics simulation, 2. making agents have goals. After discussing the problems with peers and reading on the internet, we concluded that making a physics simulation is feasible, and that the agents can have simple goals while still creating interesting phenomena.
+Our biggest technical risk is 1. making a usable physics simulation, 2. making agents have goals. After discussing the problems with peers and reading on the Internet, we concluded that making a physics simulation is feasible, and that the agents can have simple goals while still creating interesting phenomena.
 
 The original paper has very effective data visualization that we want to replicate and learn from.
 
@@ -44,3 +48,10 @@ Varas, Cornejo, Mainemer, Toldeo, Rogan, Munoz and Valdivia simulate the behavio
 Lo, S. M., Huang, H. C., Wang, P., & Yuen, K. K. (2006). A game theory based exit selection model for evacuation. Fire Safety Journal, 41(5), 364-369.
 
 Lo, Huang, Wang and Yuen integrate non-cooperative game theory with evacuation model to study the behavioral reation of the evacuees. Their non-cooperative game theory model has been established to test how how the evacuation pattern will be affected by rational interaction between evacuees. In their model, evacuees perceive the actions of others and the environmental condition and decide their escape route. They fuind the mixed-strategry _Nash Equilibrium_ for the game which describes the congestion states of exits. They suggest to examine the effect of familiarity and 'grouping' effect on further studies.
+
+[4] [**Social force model for pedestrian dynamics**](https://arxiv.org/pdf/cond-mat/9805244)
+
+Dirk Helbing and Péter Molnár model pedestrian traffic using a physics model with social forces. Each pedestrian has a goal, repels from walls and other individuals, and has 'distractions' that attract it (friends, posters, etc). Using this model, they show the emergent phenomena describe real-world pedestrian movements, like lane formation and crowd-door dynamics.
+
+
+Helbing, D., & Molnar, P. (1995). Social force model for pedestrian dynamics. Physical review E, 51(5), 4282.
