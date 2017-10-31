@@ -1,12 +1,12 @@
-# Evacuation
+# A Multiple-Agent Based Model of Panicked Evacuation
 
 Adam Novotny, Changjun Lim
 
-[abstract]
+## Abstract
 
-We will recreate the model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, in the evacuation process. There have been many approaches to describe the evacuation process, from a celluar automaton model [2] and a game theory [3] to an agent based model and a physical model [1]. We will replicate the model for the situation that there is a single exit with a large crowd and visualize it. We then try to extend the model by inserting some barriers in front of a door and observe the changes in the evacuation time.
+We will recreate the model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, in the evacuation process. There have been many approaches to describe the evacuation process, from a cellular automaton model [2] and a game theory [3] to an agent based model and a physical model [1,4]. We will replicate the model for the situation that there is a single exit with a large crowd and visualize it. We then try to extend the model by inserting some barriers in front of a door and observe the changes in the evacuation time.
 
-## Experiments
+## Experiment Direction
 The original research paper ran multiple experiments that we would like to replicate.
 First, a single exit with a large crowd. This will let us validate that our model matches the original paper.
 
@@ -14,7 +14,7 @@ We want to extend our software to allow arbitrary map input (from vector graphic
 
 The original paper implemented herding behavior and low visibility, but these are probably out of scope.
 
-Our biggest technical risk is 1. making a usable physics simulation, 2. making agents have goals. After discussing the problems with peers and reading on the Internet, we concluded that making a physics simulation is feasible, and that the agents can have simple goals while still creating interesting phenomena.
+Our biggest technical risk is 1. making a usable physics simulation, 2. making agents have goals. After discussing the problems with peers and reading on the Internet, we concluded that making a physics simulation is feasible, and that the agents can have simple goals while still creating emergent phenomena.
 
 The original paper has very effective data visualization that we want to replicate and learn from.
 
