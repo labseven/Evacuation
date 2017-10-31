@@ -14,3 +14,6 @@ The original paper has very effective data visualization that we want to replica
 
 ![Sample Output](media/sampleOutput.png)
 Possible output graphs.
+
+http://angel.elte.hu/panic/
+http://angel.elte.hu/panic/pdf/panicLetter.pdf
