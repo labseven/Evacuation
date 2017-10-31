@@ -10,7 +10,7 @@ We will recreate the model proposed by Helbing, Farkas and Vicsek [1], which des
 The original research paper ran multiple experiments that we would like to replicate.
 First, a single exit with a large crowd. This will let us validate that our model matches the original paper.
 
-We want to extend our software to allow arbitrary map input, so that we can experiment with different environments, including a widened corridor, multiple doors, etc. We want to try to replicate the findings of a different model, in which placing a column in front of the exit decreased evacuation times.
+We want to extend our software to allow arbitrary map input (from vector graphics), so that we can experiment with different environments, including a widened corridor, multiple doors, etc. We want to try to replicate the findings of a different paper, in which placing a column in front of the exit decreased evacuation times.
 
 The original paper implemented herding behavior and low visibility, but these are probably out of scope.
 
