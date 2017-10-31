@@ -4,7 +4,7 @@ Adam Novotny, Changjun Lim
 
 [abstract]
 
-We will recreate the model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, in the evacuation process. There have been many approaches to describe the evacuation process, from a cellular automaton model [2] and a game theory [3] to a physical modeling [1].
+We will recreate the model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, in the evacuation process. There have been many approaches to describe the evacuation process, from a celluar automaton model [2] and a game theory [3] to an agent based model and a physical model [1]. We will replicate the model for the situation that there is a single exit with a large crowd and visualize it. We then try to extend the model by inserting some barriers in front of a door and observe the changes in the evacuation time.
 
 ## Experiments
 The original research paper ran multiple experiments that we would like to replicate.
