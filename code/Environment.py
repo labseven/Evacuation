@@ -11,9 +11,9 @@ class Exit(Wall):
 	pass
 
 class Environment():
-	self.conditions = { 'k': 1.2 * 10**5, 'ka': 2.4 * 10**5 }
+	conditions = { 'k': 1.2 * 10**5, 'ka': 2.4 * 10**5 }
 
-	def __init__(self, N=100, walls, exits, agents, conditions):
+	def __init__(self, N, walls, exits, agents, conditions):
 		self.N = N
 		self.walls = walls
 		self.exits = exits
@@ -27,8 +27,30 @@ class Environment():
 
 
 class EnvironmentViewer():
+	BG_COLOR = (0,0,0)
+
+	BLACK = (0, 0, 0)
+	WHITE = (255, 255, 255)
+	YELLOW = (255, 233, 0)
+	RED = (203, 20, 16)
+
 	def __init__(self, environment):
-		self.environment = environment
+		self.env = environment
+		self.screen = pygame.display.set_mode((1000,1000))
 
 	def draw(self):
+		self.screen.fill(self.BG_COLOR)
+
+		for agent in self.env.agents:
+			self.drawAgent(agent)
+
+		for wall in self.env.walls:
+			self.drawWall(wall)
+
+		pygame.display.update()
+		
+	def drawAgent(self, agent):
+		pygame.draw.circle(self.screen, self.YELLOW, agent.pos, agent.size)
+		print("drew agent at ", agent.pos)
+	def drawWall(self, wall):
 		raise NotImplementedError
