@@ -1,3 +1,5 @@
+from Environment import Point
+
 class Agent():
 	def __init__(self, size, mass, pos, goal, desiredSpeed = 4):
 		"""
@@ -9,9 +11,8 @@ class Agent():
 		self.desiredSpeed = desiredSpeed
 		self.goal = goal
 
-class Point():
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
-
-	# TODO: Addition subtraction
+	def getDesiredVector(self):
+		"""
+		Calculates the vector pointing towards the goal.
+		"""
+		raise NotImplementedError
