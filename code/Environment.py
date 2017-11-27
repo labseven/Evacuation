@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from pygame.color import *
+from math import sqrt
 
 DEBUG = False
 
@@ -12,8 +13,24 @@ class Point():
 
 	def __str__(self):
 		return "{}, {}".format(self.x, self.y)
-	# TODO: Addition subtraction
 
+	def __sub__(self, other):
+		return Point(self.x - other.x, self.y - other.y)
+
+	def __add__(self, other):
+		return Point(self.x + other.x, self.y + other.y)
+
+	def __mul__(self, scalar):
+		return Point(self.x * scalar, self.y * scalar)
+
+	def __truediv__(self, scalar):
+		return Point(self.x / scalar, self.y / scalar)
+
+	def mag(self):
+		return sqrt((self.x**2) + (self.y**2))
+
+	def norm(self):
+		return self / self.mag()
 
 class Wall():
 	def __init__(self, wallType, **parameters):
