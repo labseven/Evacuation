@@ -33,17 +33,23 @@ class Wall():
 			assert isinstance(self.parameters['p1'], Point)
 			assert isinstance(self.parameters['p2'], Point)
 
+class Goal(Wall):
+	""" Defines a goal. Currently, only horizontal and vertical lines are supported. """
 
-class Exit(Wall):
-	pass
+	def checkValid(self):
+		assert self.wallType == 'line'
+		assert isinstance(self.parameters['p1'], Point)
+		assert isinstance(self.parameters['p2'], Point)
+		assert (self.parameters['p1'].x == self.parameters['p2'].x or  self.parameters['p1'].y == self.parameters['p2'].y)
+
 
 class Environment():
 	conditions = { 'k': 1.2 * 10**5, 'ka': 2.4 * 10**5 }
 
-	def __init__(self, N, walls, exits, agents, conditions):
+	def __init__(self, N, walls, goals, agents, conditions):
 		self.N = N
 		self.walls = walls
-		self.exits = exits
+		self.goals = goals
 		self.agents = agents
 		# Conditions: Agent force, Agent repulsive distance, acceleration time, step length,
 		self.conditions.update(conditions)
