@@ -60,6 +60,18 @@ class Goal(Wall):
 		assert (self.parameters['p1'].x == self.parameters['p2'].x or  self.parameters['p1'].y == self.parameters['p2'].y)
 
 
+		# p1 should always be smaller than p2
+		if (self.parameters['p1'].x == self.parameters['p2'].x):
+			if self.parameters['p1'].y > self.parameters['p2'].y:
+				p1Temp = self.parameters['p1']
+				self.parameters['p1'] = self.paramters['p2']
+				self.parameters['p2'] = p1Temp
+		elif (self.parameters['p1'].y == self.parameters['p2'].y):
+			if self.parameters['p1'].x > self.parameters['p2'].x:
+				p1Temp = self.parameters['p1']
+				self.parameters['p1'] = self.paramters['p2']
+				self.parameters['p2'] = p1Temp
+
 class Environment():
 	conditions = { 'k': 1.2 * 10**5, 'ka': 2.4 * 10**5 }
 
@@ -73,16 +85,18 @@ class Environment():
 
 
 	def step(self):
-		raise NotImplementedError
+		for agent in self.agents:
+			print(agent.getDesiredVector())
 
 
 class EnvironmentViewer():
-	BG_COLOR = (0,0,0)
+	BG_COLOR = Color(0,0,0)
 
-	BLACK = (0, 0, 0)
-	WHITE = (255, 255, 255)
-	YELLOW = (255, 233, 0)
-	RED = (203, 20, 16)
+	BLACK  = Color(0, 0, 0)
+	WHITE  = Color(255, 255, 255)
+	YELLOW = Color(255, 233, 0)
+	RED    = Color(203, 20, 16)
+	GOAL   = Color(252, 148, 37)
 
 	def __init__(self, environment):
 		self.env = environment
@@ -97,17 +111,26 @@ class EnvironmentViewer():
 		for wall in self.env.walls:
 			self.drawWall(wall)
 
+		for goal in self.env.goals:
+			self.drawGoal(goal)
+
 		pygame.display.update()
 
 	def drawAgent(self, agent):
-		pygame.draw.circle(self.screen, self.YELLOW, agent.pos, agent.size)
+		# Draw agent
+		pygame.draw.circle(self.screen, self.YELLOW, agent.pos.tuple, agent.size)
+		# Draw desired vector
+		pygame.draw.line(self.screen, self.YELLOW, agent.pos.tuple, (agent.pos + (agent.getDesiredVector()*30)).tuple)
 		if(DEBUG): print("drew agent at ", agent.pos)
 
-	def drawWall(self, wall):
+	def drawWall(self, wall, color=WHITE):
 		if wall.wallType == 'circle':
-			pygame.draw.circle(self.screen, self.WHITE, wall.parameters['center'].tuple, wall.parameters['radius'])
+			pygame.draw.circle(self.screen, color, wall.parameters['center'].tuple, wall.parameters['radius'])
 			if(DEBUG): print("drew wall at {}".format(wall.parameters['center']))
 
 		if wall.wallType == 'line':
-			pygame.draw.line(self.screen, self.WHITE, wall.parameters['p1'].tuple, wall.parameters['p2'].tuple, 10)
+			pygame.draw.line(self.screen, color, wall.parameters['p1'].tuple, wall.parameters['p2'].tuple, 10)
 			if(DEBUG): print("drew wall between {} and {}".format(wall.parameters['p1'], wall.parameters['p2']))
+
+	def drawGoal(self, goal):
+		self.drawWall(goal, color=self.GOAL)

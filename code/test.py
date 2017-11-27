@@ -1,20 +1,30 @@
 from Environment import *
 from Agent import *
 import random
+import timeit
 
 walls = []
-walls.append(Wall('circle', **{ 'center': Point(0,0), 'radius': 50 }))
-walls.append(Wall('line', **{ 'p1': Point(50,10), 'p2': Point(400,200) }))
+walls.append(Wall('circle', **{ 'center': Point(600,600), 'radius': 50 }))
+walls.append(Wall('line', **{ 'p1': Point(900,400), 'p2': Point(950, 500) }))
 
+goals = []
+goals.append(Goal('line', **{ 'p1': Point(300,100), 'p2': Point(300,300) }))
 
 agents = []
 for _ in range(10):
-    agents.append(Agent(random.randint(10,20), 50, (random.randint(10,990), random.randint(10,990)), None))
+    # Agent(size, mass, pos, goal, desiredSpeed = 4))
+    size = random.randint(10,20)
+    mass = 50
+    pos = Point(random.randint(10,990), random.randint(10,990))
+    goal = goals[0]
 
-env = Environment(100, walls, None, agents, {})
+    agents.append(Agent(size, mass, pos, goal))
+
+env = Environment(100, walls, goals, agents, {})
 viewer = EnvironmentViewer(env)
 
 viewer.draw()
+env.step()
 
 while True:
     pass
