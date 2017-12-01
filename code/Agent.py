@@ -32,7 +32,7 @@ class Agent:
 
 		# If directly in front of the goal, move right
 		else:
-return Point(1, 0)
+			return Point(1, 0)
 
     def vectorTo(self, point):
         return point - self.pos
