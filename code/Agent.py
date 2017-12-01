@@ -18,27 +18,22 @@ class Agent():
 		p1 = self.goal.parameters['p1']
 		p2 = self.goal.parameters['p2']
 
-		# Test if vertical or horizontal
-		if p1.x == p2.x:
-			if self.pos.y < p1.y:
-				return self.getVectorTo(p1).norm()
+		# If past the goal move right
+		if self.pos.x >= p1.x:
+			return Point(1, 0)
 
-			elif self.pos.y > p2.y:
-				return self.getVectorTo(p2).norm()
+		# If above the goal, move to top point
+		elif self.pos.y < p1.y:
+			return self.getVectorTo(p1).norm()
 
-			else:
-				direction = 1 if self.pos.x < p1.x else -1
-				return Point(direction, 0)
+		# If below the goal, move to bottom point
+		elif self.pos.y > p2.y:
+			return self.getVectorTo(p2).norm()
+
+		# If directly in front of the goal, move right
 		else:
-			if self.pos.x < p1.x:
-				return self.getVectorTo(p1).norm()
+			return Point(1, 0)
 
-			elif self.pos.x > p2.x:
-				return self.getVectorTo(p2).norm()
-
-			else:
-				direction = 1 if self.pos.y < p1.y else -1
-				return Point(0, direction)
 
 	def getVectorTo(self, point):
 		return point - self.pos
