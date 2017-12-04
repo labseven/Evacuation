@@ -1,8 +1,11 @@
+from Agent import *
+
 import pygame
 from pygame.locals import *
 from pygame.color import *
 from math import sqrt
 import thinkplot
+import random
 
 DEBUG = False
 
@@ -88,7 +91,7 @@ class Environment():
 
 	def step(self):
 		for agent in self.agents:
-			# print(agent.desiredDirection)
+			print(agent.desiredDirection)
 		self.updateInstruments()
 
 	def updateInstruments(self):
@@ -169,3 +172,50 @@ class ReachedGoal(Instrument):
 			if agent.pos.x > agent.goal.parameters['p1'].x:
 				num_escaped += 1
 		return num_escaped
+
+
+
+if __name__ == '__main__':
+	roomHeight = 600
+	roomWidth = 400
+	doorWidth = 100
+	walls = []
+	walls.append(Wall('circle', **{ 'center': Point(600,600), 'radius': 50 }))
+
+	walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(roomWidth, 0) })) # Top
+	walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(0, roomHeight) })) # Left
+	walls.append(Wall('line', **{ 'p1': Point(0,roomHeight), 'p2': Point(roomWidth, roomHeight) })) # Bottom
+
+	walls.append(Wall('line', **{ 'p1': Point(roomWidth,0), 'p2': Point(roomWidth, roomHeight/2 - doorWidth/2) })) # Top Doorway
+	walls.append(Wall('line', **{ 'p1': Point(roomWidth, roomHeight/2 + doorWidth/2), 'p2': Point(roomWidth, roomHeight) })) # Bottom Doorway
+
+
+
+	goals = []
+	goals.append(Goal('line', **{ 'p1': Point(roomWidth, roomHeight/2 - doorWidth/2), 'p2': Point(roomWidth, roomHeight/2 + doorWidth/2) }))
+
+	instruments = []
+	instruments.append(ReachedGoal())
+
+	maxSize = 20
+	agents = []
+	for _ in range(10):
+		# Agent(size, mass, pos, goal, desiredSpeed = 4))
+		size = random.randint(10,maxSize)
+		mass = 50
+		pos = Point(random.randint(maxSize/2,roomWidth-maxSize/2), random.randint(maxSize/2,roomHeight-maxSize/2))
+		goal = goals[0]
+
+		agents.append(Agent(size, mass, pos, goal))
+
+	env = Environment(100, walls, goals, agents, {}, instruments)
+	viewer = EnvironmentViewer(env)
+
+	viewer.draw()
+	env.step()
+
+	# Run until all agents have escaped
+	while env.instruments[0].metric[-1] < len(env.agents):
+		env.step()
+
+	env.plot(0)
