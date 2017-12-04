@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from pygame.color import *
 from math import sqrt
+import thinkplot
 
 DEBUG = False
 
@@ -75,18 +76,28 @@ class Goal(Wall):
 class Environment():
 	conditions = { 'k': 1.2 * 10**5, 'ka': 2.4 * 10**5 }
 
-	def __init__(self, N, walls, goals, agents, conditions):
+	def __init__(self, N, walls, goals, agents, conditions, instruments):
 		self.N = N
 		self.walls = walls
 		self.goals = goals
 		self.agents = agents
+		self.instruments = instruments
 		# Conditions: Agent force, Agent repulsive distance, acceleration time, step length,
 		self.conditions.update(conditions)
 
 
 	def step(self):
 		for agent in self.agents:
-			print(agent.getDesiredVector())
+			# print(agent.desiredDirection)
+		self.updateInstruments()
+
+	def updateInstruments(self):
+		for instrument in self.instruments:
+			instrument.update(self)
+
+	def plot(self, num):
+		self.instruments[num].plot()
+
 
 
 class EnvironmentViewer():
@@ -120,7 +131,7 @@ class EnvironmentViewer():
 		# Draw agent
 		pygame.draw.circle(self.screen, self.YELLOW, agent.pos.tuple, agent.size)
 		# Draw desired vector
-		pygame.draw.line(self.screen, self.YELLOW, agent.pos.tuple, (agent.pos + (agent.getDesiredVector()*30)).tuple)
+		pygame.draw.line(self.screen, self.YELLOW, agent.pos.tuple, (agent.pos + (agent.desiredDirection*30)).tuple)
 		if(DEBUG): print("drew agent at ", agent.pos)
 
 	def drawWall(self, wall, color=WHITE):
@@ -134,3 +145,27 @@ class EnvironmentViewer():
 
 	def drawGoal(self, goal):
 		self.drawWall(goal, color=self.GOAL)
+
+
+class Instrument():
+	""" Instrument that logs the state of the environment"""
+	def __init__(self):
+		self.metric = []
+
+	def plot(self, **options):
+		thinkplot.plot(self.metric, **options)
+		thinkplot.show()
+
+
+class ReachedGoal(Instrument):
+	""" Logs the number of agents that have escaped """
+	def update(self, env):
+		self.metric.append(self.countReachedGoal(env))
+
+	def countReachedGoal(self, env):
+		num_escaped = 0
+
+		for agent in env.agents:
+			if agent.pos.x > agent.goal.parameters['p1'].x:
+				num_escaped += 1
+		return num_escaped

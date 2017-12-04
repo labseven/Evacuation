@@ -10,6 +10,9 @@ walls.append(Wall('line', **{ 'p1': Point(900,400), 'p2': Point(950, 500) }))
 goals = []
 goals.append(Goal('line', **{ 'p1': Point(300,100), 'p2': Point(300,300) }))
 
+instruments = []
+instruments.append(ReachedGoal())
+
 agents = []
 for _ in range(10):
     # Agent(size, mass, pos, goal, desiredSpeed = 4))
@@ -20,11 +23,16 @@ for _ in range(10):
 
     agents.append(Agent(size, mass, pos, goal))
 
-env = Environment(100, walls, goals, agents, {})
+env = Environment(100, walls, goals, agents, {}, instruments)
 viewer = EnvironmentViewer(env)
 
 viewer.draw()
 env.step()
+
+for _ in range(50):
+    env.step()
+
+env.plot(0)
 
 while True:
     pass
