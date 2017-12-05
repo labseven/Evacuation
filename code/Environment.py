@@ -92,7 +92,18 @@ class Environment():
 	def step(self):
 		for agent in self.agents:
 			# print(agent.desiredDirection)
-			pass
+			selfDriveForce = agent.selfDriveForce()
+			pairForce = Point(0, 0)
+			wallForce = Point(0, 0)
+			for wall in self.walls:
+				wallForce += agent.wallForce(wall)
+			for agent2 in self.agents:
+				if agent.index == agent2.index:
+					continue
+				pairForce += agent.pairForce(agent2)
+			netForce = selfDriveForce + pairForce + wallForce
+			agent.move(netForce)
+			
 		self.updateInstruments()
 
 	def updateInstruments(self):
