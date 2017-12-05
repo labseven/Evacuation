@@ -4,12 +4,12 @@ Adam Novotny, Changjun Lim
 
 ## Abstract
 
-There have been various approaches to model the evacuation process of pedestrians, from an agent-based model [1] and a physical model [1, 2] to a cellular automaton model [3] and a game theory [4]. We replicate and extend the agent-based model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, with a generalized force model.
+There have been various approaches to model the evacuation process of pedestrians, from an agent-based model [1] and a physical model [1, 2] to a cellular automaton model [3] and a game theory [4]. We replicate and extend the agent-based model proposed by Helbing, Farkas, and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, with a generalized force model.
 
 Yanagisawa et al. [5] find that placing a barrier in front of a narrow exit reduces pressure on the choke point and (surprisingly) reduces evacuation time. We recreate this behavior, and investigate how properties of the barrier affect egress time.
 
 ## Reproduction
-We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al. [1]. In their model, agents want to move at a desired velocity while keeping a distance from other agents and walls. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
+We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al. [1]. In their model, agents want to move at the desired velocity while keeping a distance from other agents and walls. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
 
 ![visualization of model](media/room_without_barrier.png)
 > A visualization of the state of the model
@@ -44,7 +44,7 @@ We can see in the above plots that escape time {increases | decreases} when {doo
 The optimal escape time for n agents is a barrier at {size and position}.
 
 ## Adding Panic
-Crowd dynamics also include panic. Panicked people want to go faster, and therefore push more against agents in there way.
+Crowd dynamics also include panic. Panicked people want to go faster, and therefore push more against agents in their way.
 
 We {will} model panic when agents become impatient (eg. in a burning building).
 
@@ -52,7 +52,7 @@ We {will} model panic when agents become impatient (eg. in a burning building).
 ## Interpretation
 We found that <>.
 
-But please do not put barriers in front of fire exits; human tendencies like assessing worthiness of an exit were not modeled, and empirical tests should be run before rewriting the fire code.
+But please do not put barriers in front of fire exits; human tendencies like assessing the worthiness of an exit were not modeled, and empirical tests should be run before rewriting the fire code.
 
 
 ## Annotated Bibliography
@@ -61,7 +61,7 @@ But please do not put barriers in front of fire exits; human tendencies like ass
 
 Helbing, D., Farkas, I., & Vicsek, T. (2000). Simulating dynamical features of escape panic. Nature, 407(6803), 487-490.
 
-Helbing, Farkas and Vicsek propose the model describing pedestrian behaviors like panic and jamming in the evacuation process. The crowd dynamics of pedestrians are based on a generalized force model. They simulate the situation in which pedestrians escapes through a narrow exit and a wider area. They observe the evacuation process with respect to paramters such as pedestrians' velocity, panic and angle.
+Helbing, Farkas and Vicsek propose the model describing pedestrian behaviors like panic and jamming in the evacuation process. The crowd dynamics of pedestrians are based on a generalized force model. They simulate the situation in which pedestrians escapes through a narrow exit and a wider area. They observe the evacuation process with respect to parameters such as pedestrians' velocity, panic, and angle.
 
 [2] [**Social force model for pedestrian dynamics**](https://arxiv.org/pdf/cond-mat/9805244)
 
@@ -79,7 +79,7 @@ Varas, Cornejo, Mainemer, Toldeo, Rogan, Munoz and Valdivia simulate the behavio
 
 Lo, S. M., Huang, H. C., Wang, P., & Yuen, K. K. (2006). A game theory based exit selection model for evacuation. Fire Safety Journal, 41(5), 364-369.
 
-Lo, Huang, Wang and Yuen integrate non-cooperative game theory with evacuation model to study the behavioral reation of the evacuees. Their non-cooperative game theory model has been established to test how how the evacuation pattern will be affected by rational interaction between evacuees. In their model, evacuees perceive the actions of others and the environmental condition and decide their escape route. They fuind the mixed-strategry _Nash Equilibrium_ for the game which describes the congestion states of exits. They suggest to examine the effect of familiarity and 'grouping' effect on further studies.
+Lo, Huang, Wang and Yuen integrate non-cooperative game theory with evacuation model to study the behavioral reaction of the evacuees. Their non-cooperative game theory model has been established to test how how the evacuation pattern will be affected by rational interaction between evacuees. In their model, evacuees perceive the actions of others and the environmental condition and decide their escape route. They fuind the mixed-strategry _Nash Equilibrium_ for the game which describes the congestion states of exits. They suggest to examine the effect of familiarity and 'grouping' effect on further studies.
 
 [5] [Introduction of frictional and turning function for pedestrian outflow with an obstacle.](https://arxiv.org/pdf/0906.0224)
 
