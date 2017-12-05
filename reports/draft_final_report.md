@@ -9,7 +9,7 @@ There have been various approaches to model the evacuation process of pedestrian
 Yanagisawa et al. [5] find that placing a barrier in front of a narrow exit reduces pressure on the choke point and (surprisingly) reduces evacuation time. We recreate this behavior, and investigate how properties of the barrier affect egress time.
 
 ## Reproduction
-We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al [1]. In their model, agents want to move at a desired velocity while keeping a distance from other agents and walls. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
+We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al. [1]. In their model, agents want to move at a desired velocity while keeping a distance from other agents and walls. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
 
 ![visualization of model](media/room_without_barrier.png)
 > A visualization of the state of the model
@@ -19,7 +19,7 @@ We add a circular barrier in front of the doorway with r={} and analyze how evac
 ![Room with Barrier](media/room_with_barrier.png)
 > With a barrier
 
-We validate our model by comparing our plot for escape time vs desired speed to a plot from Helbing et al [1].
+We validate our model by comparing our plot for escape time vs desired speed to a plot from Helbing et al. [1].
 
 ![validation plot](media/sample_plot_evacuation_vs_desired_velocity.png)
 > Note: our plot is not visible because it doesn't exist
@@ -43,13 +43,19 @@ We can see in the above plots that escape time {increases | decreases} when {doo
 
 The optimal escape time for n agents is a barrier at {size and position}.
 
+## Adding Panic
+Crowd dynamics also include panic. Panicked people want to go faster, and therefore push more against agents in there way.
+
+We {will} model panic when agents become impatient (eg. in a burning building).
+
+
 ## Interpretation
 We found that <>.
 
 But please do not put barriers in front of fire exits; human tendencies like assessing worthiness of an exit were not modeled, and empirical tests should be run before rewriting the fire code.
 
 
-### Annotated Bibliography
+## Annotated Bibliography
 
 [1] [**Simulating dynamical features of escape panic**](https://www.nature.com/nature/journal/v407/n6803/abs/407487a0.html)
 
