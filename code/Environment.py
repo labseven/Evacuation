@@ -91,7 +91,8 @@ class Environment():
 
 	def step(self):
 		for agent in self.agents:
-			print(agent.desiredDirection)
+			# print(agent.desiredDirection)
+			pass
 		self.updateInstruments()
 
 	def updateInstruments(self):
@@ -175,12 +176,19 @@ class ReachedGoal(Instrument):
 
 
 
-if __name__ == '__main__':
-	roomHeight = 600
-	roomWidth = 400
-	doorWidth = 100
+def runExperiment(roomHeight=1000,
+				  roomWidth=800,
+				  barrier={ 'radius': 50, 'pos': Point(-100,0)}, # pos is relative to door center
+				  doorWidth=100,
+				  numAgents=50,
+				  agentSize=20,
+				  agentMass=50,
+				  desiredSpeed=4):
+
 	walls = []
-	walls.append(Wall('circle', **{ 'center': Point(600,600), 'radius': 50 }))
+	# Only add barrier if its radius is above 0
+	if barrier:
+		walls.append(Wall('circle', **{ 'center': Point(roomWidth + barrier['pos'].x, roomHeight//2 + barrier['pos'].y), 'radius': barrier['radius'] }))
 
 	walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(roomWidth, 0) })) # Top
 	walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(0, roomHeight) })) # Left
@@ -197,16 +205,16 @@ if __name__ == '__main__':
 	instruments = []
 	instruments.append(ReachedGoal())
 
-	maxSize = 20
+
 	agents = []
-	for _ in range(10):
+	for _ in range(numAgents):
 		# Agent(size, mass, pos, goal, desiredSpeed = 4))
-		size = random.randint(10,maxSize)
-		mass = 50
-		pos = Point(random.randint(maxSize/2,roomWidth-maxSize/2), random.randint(maxSize/2,roomHeight-maxSize/2))
+		size = random.randint(.9 * agentSize, 1.1 * agentSize)
+		mass = agentMass
+		pos = Point(random.randint(agentSize,roomWidth/2-agentSize), random.randint(agentSize,roomHeight-agentSize))
 		goal = goals[0]
 
-		agents.append(Agent(size, mass, pos, goal))
+		agents.append(Agent(size, mass, pos, goal, desiredSpeed=desiredSpeed))
 
 	env = Environment(100, walls, goals, agents, {}, instruments)
 	viewer = EnvironmentViewer(env)
@@ -218,4 +226,12 @@ if __name__ == '__main__':
 	while env.instruments[0].metric[-1] < len(env.agents):
 		env.step()
 
-	env.plot(0)
+
+	return env.instruments[0].metric
+
+if __name__ == '__main__':
+	defaultExperiment = runExperiment()
+	print(defaultExperiment)
+
+	thinkplot.plot(defaultExperiment)
+	thinkplot.show()
