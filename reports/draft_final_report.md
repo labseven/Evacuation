@@ -4,7 +4,7 @@ Adam Novotny, Changjun Lim
 
 ## Abstract
 
-There have been various approaches to describe the evacuation process of pedestrians, from an agent-based model [1] and a physical model [1, 2] to a cellular automaton model [3] and a game theory [4]. We replicate and extend the agent-based model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, with a generalized force model.
+There have been various approaches to model the evacuation process of pedestrians, from an agent-based model [1] and a physical model [1, 2] to a cellular automaton model [3] and a game theory [4]. We replicate and extend the agent-based model proposed by Helbing, Farkas and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, with a generalized force model.
 
 Yanagisawa et al. [5] find that placing a barrier in front of a narrow exit reduces pressure on the choke point and (surprisingly) reduces evacuation time. We recreate this behavior, and investigate how properties of the barrier affect egress time.
 
@@ -19,6 +19,11 @@ We add a circular barrier in front of the doorway with r={} and analyze how evac
 ![Room with Barrier](media/room_with_barrier.png)
 > With a barrier
 
+We validate our model by comparing our plot for escape time vs desired speed to a plot from Helbing et al [1].
+
+![validation plot](media/sample_plot_evacuation_vs_desired_velocity.png)
+> Note: our plot is not visible because it doesn't exist
+
 ## Different Barriers
 
 We then run the simulation multiple times to see how different parameters affect evacuation time.
@@ -26,11 +31,13 @@ We then run the simulation multiple times to see how different parameters affect
 > Sample plot output (note: we are not modeling injury)
 
 For n barrier sizes and positions (including no barrier):
+```
 {plot: escape time vs number of agents}
 {plot: escape time vs desired velocity}
 {plot: escape time vs door size}
 {plot: escape time vs barrier size (for a few door sizes)}
 {plot: escape time vs barrier placement (for a few sizes)}
+```
 
 We can see in the above plots that escape time {increases | decreases} when {door size | barrier size} changes.
 
@@ -39,7 +46,7 @@ The optimal escape time for n agents is a barrier at {size and position}.
 ## Interpretation
 We found that <>.
 
-As agents wanted to move faster, they caused more conflicts in the doorway, slowing the system down.
+But please do not put barriers in front of fire exits; human tendencies like assessing worthiness of an exit were not modeled, and empirical tests should be run before rewriting the fire code.
 
 
 ### Annotated Bibliography
