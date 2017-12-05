@@ -11,22 +11,35 @@ Yanagisawa et al. [5] find that placing a barrier in front of a narrow exit redu
 ## Reproduction
 We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al [1]. In their model, agents want to move at a desired velocity while keeping a distance from other agents and walls. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
 
-![visualization of model](media/1_crowded_door.png)
+![visualization of model](media/room_without_barrier.png)
 > A visualization of the state of the model
 
 We add a circular barrier in front of the doorway with r={} and analyze how evacuation time is affected.
 
-![Room with Barrier](media/2_room_with_barrier.png)
-
+![Room with Barrier](media/room_with_barrier.png)
+> With a barrier
 
 ## Different Barriers
 
 We then run the simulation multiple times to see how different parameters affect evacuation time.
+![sample plot](media/sample_plot_evacuation_vs_desired_velocity.png)
+> Sample plot output (note: we are not modeling injury)
 
 For n barrier sizes and positions (including no barrier):
-{plot: escape time vs number of pedestrians}
+{plot: escape time vs number of agents}
 {plot: escape time vs desired velocity}
+{plot: escape time vs door size}
+{plot: escape time vs barrier size (for a few door sizes)}
+{plot: escape time vs barrier placement (for a few sizes)}
 
+We can see in the above plots that escape time {increases | decreases} when {door size | barrier size} changes.
+
+The optimal escape time for n agents is a barrier at {size and position}.
+
+## Interpretation
+We found that <>.
+
+As agents wanted to move faster, they caused more conflicts in the doorway, slowing the system down.
 
 
 ### Annotated Bibliography
