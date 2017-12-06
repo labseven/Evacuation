@@ -1,124 +1,102 @@
 from Agent import *
+from Point import Point
 
 import pygame
 from pygame.locals import *
 from pygame.color import *
-from math import sqrt
 import thinkplot
 import random
 
 DEBUG = False
 
-class Point():
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
 
-	def __str__(self):
-		return "{}, {}".format(self.x, self.y)
+class Wall:
+    def __init__(self, wallType, **parameters):
+        # type : "circle" | "line", points
+        # Circle : type='circle' { "center": Point(x,y), "radius": r }
+        # Line : type='line'{ "p1": Point(x1,y1), "p2": Point(x2,y2) }
+        self.wallType = wallType
+        self.parameters = parameters
+        self.checkValid()
 
-	def __sub__(self, other):
-		return Point(self.x - other.x, self.y - other.y)
+    def checkValid(self):
+        if self.wallType == 'circle':
+            assert isinstance(self.parameters["center"], Point), "Circles need a center"
+            assert isinstance(self.parameters["radius"], int), "Radius needs to be an int"
 
-	def __add__(self, other):
-		return Point(self.x + other.x, self.y + other.y)
+        if self.wallType == 'line':
+            assert isinstance(self.parameters['p1'], Point)
+            assert isinstance(self.parameters['p2'], Point)
 
-	def __mul__(self, scalar):
-		return Point(self.x * scalar, self.y * scalar)
-
-	def __truediv__(self, scalar):
-		return Point(self.x / scalar, self.y / scalar)
-
-	@property
-	def tuple(self):
-		return (self.x, self.y)
-
-	@property
-	def pygame(self):
-		return (int(self.x*100), int(self.y*100))
-
-	def mag(self):
-		return sqrt((self.x**2) + (self.y**2))
-
-	def norm(self):
-		return self / self.mag()
-
-class Wall():
-	def __init__(self, wallType, **parameters):
-		# type: "circle" | "line", points
-		# Circle: type='circle' { "center": Point(x,y), "radius": r }
-		# Line: type='line'{ "p1": Point(x1,y1), "p2": Point(x2,y2) }
-		self.wallType = wallType
-		self.parameters = parameters
-		self.checkValid()
-
-	def checkValid(self):
-		if self.wallType == 'circle':
-			assert isinstance(self.parameters["center"], Point), "Circles need a center"
-			assert isinstance(self.parameters["radius"], int), "Radius needs to be an int"
-
-		if self.wallType == 'line':
-			assert isinstance(self.parameters['p1'], Point)
-			assert isinstance(self.parameters['p2'], Point)
 
 class Goal(Wall):
-	""" Defines a goal. Currently, only horizontal and vertical lines are supported. """
+    """ Defines a goal. Currently, only horizontal and vertical lines are supported. """
 
-	def checkValid(self):
-		assert self.wallType == 'line'
-		assert isinstance(self.parameters['p1'], Point)
-		assert isinstance(self.parameters['p2'], Point)
-		assert (self.parameters['p1'].x == self.parameters['p2'].x or  self.parameters['p1'].y == self.parameters['p2'].y)
+    def checkValid(self):
+        assert self.wallType == 'line'
+        assert isinstance(self.parameters['p1'], Point)
+        assert isinstance(self.parameters['p2'], Point)
+        assert (self.parameters['p1'].x == self.parameters['p2'].x or self.parameters['p1'].y == self.parameters[
+            'p2'].y)
 
+        # p1 should always be smaller than p2
+        if (self.parameters['p1'].x == self.parameters['p2'].x):
+            if self.parameters['p1'].y > self.parameters['p2'].y:
+                p1Temp = self.parameters['p1']
+                self.parameters['p1'] = self.paramters['p2']
+                self.parameters['p2'] = p1Temp
+        elif (self.parameters['p1'].y == self.parameters['p2'].y):
+            if self.parameters['p1'].x > self.parameters['p2'].x:
+                p1Temp = self.parameters['p1']
+                self.parameters['p1'] = self.paramters['p2']
+                self.parameters['p2'] = p1Temp
 
-		# p1 should always be smaller than p2
-		if (self.parameters['p1'].x == self.parameters['p2'].x):
-			if self.parameters['p1'].y > self.parameters['p2'].y:
-				p1Temp = self.parameters['p1']
-				self.parameters['p1'] = self.paramters['p2']
-				self.parameters['p2'] = p1Temp
-		elif (self.parameters['p1'].y == self.parameters['p2'].y):
-			if self.parameters['p1'].x > self.parameters['p2'].x:
-				p1Temp = self.parameters['p1']
-				self.parameters['p1'] = self.paramters['p2']
-				self.parameters['p2'] = p1Temp
 
 class Environment():
-	conditions = { 'k': 1.2 * 10**5, 'ka': 2.4 * 10**5 }
+    conditions = {'k': 1.2 * 10 ** 5, 'ka': 2.4 * 10 ** 5}
 
-	def __init__(self, N, walls, goals, agents, conditions, instruments):
-		self.N = N
-		self.walls = walls
-		self.goals = goals
-		self.agents = agents
-		self.instruments = instruments
-		# Conditions: Agent force, Agent repulsive distance, acceleration time, step length,
-		self.conditions.update(conditions)
+    def __init__(self, N, walls, goals, agents, conditions, instruments):
+        self.N = N
+        self.walls = walls
+        self.goals = goals
+        self.agents = agents
+        self.instruments = instruments
+        # Conditions: Agent force, Agent repulsive distance, acceleration time, step length,
+        self.conditions.update(conditions)
 
+    def step(self):
+        for agent in self.agents:
+            # print(agent.desiredDirection)
+            selfDriveForce = agent.selfDriveForce()
+            pairForce = Point(0, 0)
+            wallForce = Point(0, 0)
+            for wall in self.walls:
+                wallForce += agent.wallForce(wall)
+            for agent2 in self.agents:
+                if agent.index == agent2.index:
+                    continue
+                pairForce += agent.pairForce(agent2)
+            netForce = selfDriveForce + pairForce + wallForce
+            agent.move(netForce)
 
-	def step(self):
-		for agent in self.agents:
-			# print(agent.desiredDirection)
-			pass
-		self.updateInstruments()
+        self.updateInstruments()
 
-	def updateInstruments(self):
-		for instrument in self.instruments:
-			instrument.update(self)
+    def updateInstruments(self):
+        for instrument in self.instruments:
+            instrument.update(self)
 
-	def plot(self, num):
-		self.instruments[num].plot()
-
+    def plot(self, num):
+        self.instruments[num].plot()
 
 
 class EnvironmentViewer():
-	BG_COLOR = Color(0,0,0)
+    BG_COLOR = Color(0, 0, 0)
 
-	BLACK  = Color(0, 0, 0)
-	WHITE  = Color(255, 255, 255)
-	YELLOW = Color(255, 233, 0)
-	RED    = Color(203, 20, 16)
-	GOAL   = Color(252, 148, 37)
+    BLACK = Color(0, 0, 0)
+    WHITE = Color(255, 255, 255)
+    YELLOW = Color(255, 233, 0)
+    RED = Color(203, 20, 16)
+    GOAL = Color(252, 148, 37)
 
 	pygameScale = 100
 
@@ -126,19 +104,19 @@ class EnvironmentViewer():
 		self.env = environment
 		self.screen = pygame.display.set_mode((1000,1000))
 
-	def draw(self):
-		self.screen.fill(self.BG_COLOR)
+    def draw(self):
+        self.screen.fill(self.BG_COLOR)
 
-		for agent in self.env.agents:
-			self.drawAgent(agent)
+        for agent in self.env.agents:
+            self.drawAgent(agent)
 
-		for wall in self.env.walls:
-			self.drawWall(wall)
+        for wall in self.env.walls:
+            self.drawWall(wall)
 
-		for goal in self.env.goals:
-			self.drawGoal(goal)
+        for goal in self.env.goals:
+            self.drawGoal(goal)
 
-		pygame.display.update()
+        pygame.display.update()
 
 	def drawAgent(self, agent):
 		# Draw agent
@@ -156,33 +134,34 @@ class EnvironmentViewer():
 			pygame.draw.line(self.screen, color, wall.parameters['p1'].pygame, wall.parameters['p2'].pygame, 10)
 			if(DEBUG): print("drew wall between {} and {}".format(wall.parameters['p1'], wall.parameters['p2']))
 
-	def drawGoal(self, goal):
-		self.drawWall(goal, color=self.GOAL)
+    def drawGoal(self, goal):
+        self.drawWall(goal, color=self.GOAL)
 
 
 class Instrument():
-	""" Instrument that logs the state of the environment"""
-	def __init__(self):
-		self.metric = []
+    """ Instrument that logs the state of the environment"""
 
-	def plot(self, **options):
-		thinkplot.plot(self.metric, **options)
-		thinkplot.show()
+    def __init__(self):
+        self.metric = []
+
+    def plot(self, **options):
+        thinkplot.plot(self.metric, **options)
+        thinkplot.show()
 
 
 class ReachedGoal(Instrument):
-	""" Logs the number of agents that have escaped """
-	def update(self, env):
-		self.metric.append(self.countReachedGoal(env))
+    """ Logs the number of agents that have escaped """
 
-	def countReachedGoal(self, env):
-		num_escaped = 0
+    def update(self, env):
+        self.metric.append(self.countReachedGoal(env))
 
-		for agent in env.agents:
-			if agent.pos.x > agent.goal.parameters['p1'].x:
-				num_escaped += 1
-		return num_escaped
+    def countReachedGoal(self, env):
+        num_escaped = 0
 
+        for agent in env.agents:
+            if agent.pos.x > agent.goal.parameters['p1'].x:
+                num_escaped += 1
+        return num_escaped
 def randFloat(minVal, maxVal):
 	return random.random() * (maxVal - minVal) + minVal
 
@@ -236,7 +215,6 @@ def runSimulation(roomHeight=10,
 	# 	env.step()
 
 
-	return env.instruments[0].metric
 
 if __name__ == '__main__':
 	simResult = runSimulation(barrier=None)
