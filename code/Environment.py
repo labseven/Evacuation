@@ -25,7 +25,7 @@ class Wall:
     def checkValid(self):
         if self.wallType == 'circle':
             assert isinstance(self.parameters["center"], Point), "Circles need a center"
-            assert isinstance(self.parameters["radius"], int), "Radius needs to be an int"
+            # assert isinstance(self.parameters["radius"], int), "Radius needs to be an int"
 
         if self.wallType == 'line':
             assert isinstance(self.parameters['p1'], Point)
@@ -130,7 +130,7 @@ class EnvironmentViewer():
 
     def drawWall(self, wall, color=WHITE):
         if wall.wallType == 'circle':
-            pygame.draw.circle(self.screen, color, wall.parameters['center'].pygame, (wall.parameters['radius'] * self.pygameScale))
+            pygame.draw.circle(self.screen, color, wall.parameters['center'].pygame, int(wall.parameters['radius'] * self.pygameScale))
             if(DEBUG): print("drew wall at {}".format(wall.parameters['center']))
 
         if wall.wallType == 'line':
@@ -173,7 +173,7 @@ def randFloat(minVal, maxVal):
 
 def runSimulation(roomHeight=10,
                   roomWidth=8,
-                  barrier={ 'radius': 1, 'pos': Point(-1,0)}, # pos is relative to door center
+                  barrier={ 'radius': .3, 'pos': Point(-1,0)}, # pos is relative to door center
                   doorWidth=1.5,
                   numAgents=50,
                   agentMass=80,
@@ -227,7 +227,7 @@ def runSimulation(roomHeight=10,
         env.step()
         viewer.draw()
         print(env.instruments[0].metric[-1])
-        pygame.event.wait()
+        # pygame.event.wait()
 
     return env.instruments[0].metric
 
@@ -246,7 +246,7 @@ def runExperiment():
 
 
 if __name__ == '__main__':
-    simResult = runSimulation(barrier=None, view=True)
+    simResult = runSimulation( view=True, desiredSpeed=4)
     print(simResult)
 
     while True:
