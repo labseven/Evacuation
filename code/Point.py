@@ -5,7 +5,6 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.tuple = (x, y)
 
     def __str__(self):
         return "Point({}, {})".format(self.x, self.y)
@@ -27,6 +26,14 @@ class Point:
 
     def __truediv__(self, scalar):
         return Point(self.x / scalar, self.y / scalar)
+
+    @property
+    def tuple(self):
+        return (self.x, self.y)
+
+    @property
+    def pygame(self):
+        return (int(self.x*100), int(self.y*100))
 
     def mag(self):
         return sqrt((self.x ** 2) + (self.y ** 2))
