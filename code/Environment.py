@@ -7,6 +7,9 @@ from pygame.color import *
 import thinkplot
 import random
 
+from datetime import datetime
+import pickle
+
 DEBUG = False
 
 
@@ -98,11 +101,11 @@ class EnvironmentViewer():
     RED = Color(203, 20, 16)
     GOAL = Color(252, 148, 37)
 
-	pygameScale = 100
+    pygameScale = 100
 
-	def __init__(self, environment):
-		self.env = environment
-		self.screen = pygame.display.set_mode((1000,1000))
+    def __init__(self, environment):
+        self.env = environment
+        self.screen = pygame.display.set_mode((1000,1000))
 
     def draw(self):
         self.screen.fill(self.BG_COLOR)
@@ -118,21 +121,21 @@ class EnvironmentViewer():
 
         pygame.display.update()
 
-	def drawAgent(self, agent):
-		# Draw agent
-		pygame.draw.circle(self.screen, self.YELLOW, agent.pos.pygame, int(agent.size * self.pygameScale))
-		# Draw desired vector
-		pygame.draw.line(self.screen, self.YELLOW, agent.pos.pygame, (agent.pos + (agent.desiredDirection)).pygame)
-		if(DEBUG): print("drew agent at ", agent.pos)
+    def drawAgent(self, agent):
+        # Draw agent
+        pygame.draw.circle(self.screen, self.YELLOW, agent.pos.pygame, int(agent.size * self.pygameScale))
+        # Draw desired vector
+        pygame.draw.line(self.screen, self.YELLOW, agent.pos.pygame, (agent.pos + (agent.desiredDirection)).pygame)
+        if(DEBUG): print("drew agent at ", agent.pos)
 
-	def drawWall(self, wall, color=WHITE):
-		if wall.wallType == 'circle':
-			pygame.draw.circle(self.screen, color, wall.parameters['center'].pygame, (wall.parameters['radius'] * self.pygameScale))
-			if(DEBUG): print("drew wall at {}".format(wall.parameters['center']))
+    def drawWall(self, wall, color=WHITE):
+        if wall.wallType == 'circle':
+            pygame.draw.circle(self.screen, color, wall.parameters['center'].pygame, (wall.parameters['radius'] * self.pygameScale))
+            if(DEBUG): print("drew wall at {}".format(wall.parameters['center']))
 
-		if wall.wallType == 'line':
-			pygame.draw.line(self.screen, color, wall.parameters['p1'].pygame, wall.parameters['p2'].pygame, 10)
-			if(DEBUG): print("drew wall between {} and {}".format(wall.parameters['p1'], wall.parameters['p2']))
+        if wall.wallType == 'line':
+            pygame.draw.line(self.screen, color, wall.parameters['p1'].pygame, wall.parameters['p2'].pygame, 10)
+            if(DEBUG): print("drew wall between {} and {}".format(wall.parameters['p1'], wall.parameters['p2']))
 
     def drawGoal(self, goal):
         self.drawWall(goal, color=self.GOAL)
@@ -162,65 +165,91 @@ class ReachedGoal(Instrument):
             if agent.pos.x > agent.goal.parameters['p1'].x:
                 num_escaped += 1
         return num_escaped
+
+
+
 def randFloat(minVal, maxVal):
-	return random.random() * (maxVal - minVal) + minVal
+    return random.random() * (maxVal - minVal) + minVal
 
 def runSimulation(roomHeight=10,
-				  roomWidth=8,
-				  barrier={ 'radius': 1, 'pos': Point(-1,0)}, # pos is relative to door center
-				  doorWidth=1.5,
-				  numAgents=50,
-				  agentMass=80,
-				  desiredSpeed=4):
+                  roomWidth=8,
+                  barrier={ 'radius': 1, 'pos': Point(-1,0)}, # pos is relative to door center
+                  doorWidth=1.5,
+                  numAgents=50,
+                  agentMass=80,
+                  desiredSpeed=4,
+                  view=False):
 
-	walls = []
-	# Only add barrier if its radius is above 0
-	if barrier:
-		walls.append(Wall('circle', **{ 'center': Point(roomWidth + barrier['pos'].x, roomHeight//2 + barrier['pos'].y), 'radius': barrier['radius'] }))
+    walls = []
+    # Only add barrier if its radius is above 0
+    if barrier:
+        walls.append(Wall('circle', **{ 'center': Point(roomWidth + barrier['pos'].x, roomHeight//2 + barrier['pos'].y), 'radius': barrier['radius'] }))
 
-	walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(roomWidth, 0) })) # Top
-	walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(0, roomHeight) })) # Left
-	walls.append(Wall('line', **{ 'p1': Point(0,roomHeight), 'p2': Point(roomWidth, roomHeight) })) # Bottom
+    walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(roomWidth, 0) })) # Top
+    walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(0, roomHeight) })) # Left
+    walls.append(Wall('line', **{ 'p1': Point(0,roomHeight), 'p2': Point(roomWidth, roomHeight) })) # Bottom
 
-	walls.append(Wall('line', **{ 'p1': Point(roomWidth,0), 'p2': Point(roomWidth, roomHeight/2 - doorWidth/2) })) # Top Doorway
-	walls.append(Wall('line', **{ 'p1': Point(roomWidth, roomHeight/2 + doorWidth/2), 'p2': Point(roomWidth, roomHeight) })) # Bottom Doorway
-
-
-
-	goals = []
-	goals.append(Goal('line', **{ 'p1': Point(roomWidth, roomHeight/2 - doorWidth/2), 'p2': Point(roomWidth, roomHeight/2 + doorWidth/2) }))
-
-	instruments = []
-	instruments.append(ReachedGoal())
+    walls.append(Wall('line', **{ 'p1': Point(roomWidth,0), 'p2': Point(roomWidth, roomHeight/2 - doorWidth/2) })) # Top Doorway
+    walls.append(Wall('line', **{ 'p1': Point(roomWidth, roomHeight/2 + doorWidth/2), 'p2': Point(roomWidth, roomHeight) })) # Bottom Doorway
 
 
-	agents = []
-	for _ in range(numAgents):
-		# Agent(size, mass, pos, goal, desiredSpeed = 4))
-		size = randFloat(.25, .35)
-		mass = agentMass
-		pos = Point(randFloat(.5, roomWidth/2 - .5), randFloat(.5,roomHeight-.5))
-		goal = goals[0]
 
-		agents.append(Agent(size, mass, pos, goal, desiredSpeed=desiredSpeed))
+    goals = []
+    goals.append(Goal('line', **{ 'p1': Point(roomWidth, roomHeight/2 - doorWidth/2), 'p2': Point(roomWidth, roomHeight/2 + doorWidth/2) }))
 
-	env = Environment(100, walls, goals, agents, {}, instruments)
-	viewer = EnvironmentViewer(env)
+    instruments = []
+    instruments.append(ReachedGoal())
 
-	viewer.draw()
-	env.step()
 
-	# Run until all agents have escaped
-	# while env.instruments[0].metric[-1] < len(env.agents):
-	# 	env.step()
+    agents = []
+    for _ in range(numAgents):
+        # Agent(size, mass, pos, goal, desiredSpeed = 4))
+        size = randFloat(.25, .35)
+        mass = agentMass
+        pos = Point(randFloat(.5, roomWidth/2 - .5), randFloat(.5,roomHeight-.5))
+        goal = goals[0]
 
+        agents.append(Agent(size, mass, pos, goal, desiredSpeed=desiredSpeed))
+
+    env = Environment(100, walls, goals, agents, {}, instruments)
+
+    if view:
+        viewer = EnvironmentViewer(env)
+
+        viewer.draw()
+        env.step()
+
+    env.step()
+
+    print(env.instruments[0].metric)
+    # Run until all agents have escaped
+    while env.instruments[0].metric[-1] < len(env.agents):
+        env.step()
+        viewer.draw()
+        print(env.instruments[0].metric[-1])
+        pygame.event.wait()
+
+    return env.instruments[0].metric
+
+def runExperiment():
+    x = []
+    time_to_escape = []
+    for num_agents in range(50, 500, 50):
+        statistics = runSimulation()
+
+        x.append(num_agents)
+        time_to_escape.append(len(statistics))
+
+    export = [x, time_to_escape]
+    with open("{}.pd".format(datetime.time()), "r") as outfile:
+        pickle.dump(export, outfile)
 
 
 if __name__ == '__main__':
-	simResult = runSimulation(barrier=None)
-	print(simResult)
+    simResult = runSimulation(barrier=None, view=True)
+    print(simResult)
 
-	while True:
-		pass
-	# thinkplot.plot(defaultExperiment)
-	# thinkplot.show()
+    while True:
+        pass
+    # thinkplot.plot(defaultExperiment)
+    # thinkplot.show()
