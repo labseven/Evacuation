@@ -4,15 +4,15 @@ import math
 
 class Agent:
     # constant
-    k = 120000
+    k = 12000
     kappa = 24000
     v_max = 5
-    time = 1
+    time = .01
     _index = 0
 
     def __init__(self, size, mass, pos, goal, desiredSpeed=4):
         # the constants
-        self.A = 2000
+        self.A = 200
         self.B = 0.08
         self.tau = 0.5
         # instance variables
@@ -28,31 +28,27 @@ class Agent:
 
     @property
     def desiredDirection(self):
-        """ Calculates the unit vector pointing towards the goal. """
+        """
+        Calculates the vector pointing towards the goal.
+        """
         p1 = self.goal.parameters['p1']
         p2 = self.goal.parameters['p2']
 
-        # Test if vertical or horizontal
-        if p1.x == p2.x:
-            if self.pos.y < p1.y:
-                return self.vectorTo(p1).norm()
+        # If past the goal move right
+        if self.pos.x >= p1.x:
+            return Point(1, 0)
 
-            elif self.pos.y > p2.y:
-                return self.vectorTo(p2).norm()
+        # If above the goal, move to top point
+        elif self.pos.y < p1.y:
+            return self.vectorTo(p1 + Point(0, .5)).norm()
 
-            else:
-                direction = 1 if self.pos.x < p1.x else -1
-                return Point(direction, 0)
+        # If below the goal, move to bottom point
+        elif self.pos.y > p2.y:
+            return self.vectorTo(p2 - Point(0, .5)).norm()
+
+        # If directly in front of the goal, move right
         else:
-            if self.pos.x < p1.x:
-                return self.vectorTo(p1).norm()
-
-            elif self.pos.x > p2.x:
-                return self.vectorTo(p2).norm()
-
-            else:
-                direction = 1 if self.pos.y < p1.y else -1
-                return Point(0, direction)
+            return Point(1, 0)
 
     def vectorTo(self, point):
         return point - self.pos
