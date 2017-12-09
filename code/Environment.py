@@ -229,10 +229,14 @@ def runSimulation(roomHeight=10,
         if view:
             viewer.draw()
             # pygame.event.wait()
-        message = "num escaped: {}".format(env.instruments[0].metric[-1])
+        message = "num escaped: {}, step: {}".format(env.instruments[0].metric[-1], len(env.instruments[0].metric))
         sys.stdout.write('\r' + str(message) + ' ' * 20)
         sys.stdout.flush() # important
 
+        if len(env.instruments[0].metric) == 6000:
+            break
+
+    print()
     return env.instruments[0].metric
 
 def runExperiment():
