@@ -9,7 +9,9 @@ There have been various approaches to model the evacuation process of pedestrian
 Yanagisawa et al. [5] find that placing a barrier in front of a narrow exit reduces pressure on the choke point and (surprisingly) reduces evacuation time. We recreate this behavior, and investigate how properties of the barrier affect egress time.
 
 ## Reproduction
-We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al. [1]. In their model, agents want to move at the desired velocity while keeping a distance from other agents and walls. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
+We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the generalized force model of Helbing et al. [1]. In their model, agents want to move at the desired velocity while keeping a distance from other agents and walls. This is modeled as a self-driving force and a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
+A self-driving force is proportional to the difference between the desired velocity and current velocity. The magnitude of the psychological force is an exponential function of the distance between surfaces of an agent and walls or other agents. So even if an agent is not contacting on other objects, there is a psychological force. This direction of the force is the direction of the distance(normal to the tangential line). The magnitude of friction and normal force is proportional to the overlapped length between an agent and walls or other agents. So there is no friction and normal force when an agent does not contact to other objects. We choose the coefficients of forces from the original paper [1].
+
 
 ![visualization of model](media/room_without_barrier.png)
 > A visualization of the state of the model
