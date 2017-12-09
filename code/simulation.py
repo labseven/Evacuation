@@ -104,7 +104,7 @@ for numAgents in settings['numAgents']:
                                           numAgents=numAgents,
                                           agentMass=agentMass,
                                           desiredSpeed=desiredSpeed,
-                                          view=True
+                                          view=False
                                           ))
 
                         simulation_data = {
