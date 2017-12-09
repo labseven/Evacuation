@@ -216,20 +216,19 @@ def runSimulation(roomHeight=10,
 
     if view:
         viewer = EnvironmentViewer(env)
-
         viewer.draw()
 
     env.step()
 
-    print(env.instruments[0].metric)
+    # print(env.instruments[0].metric)
     # Run until all agents have escaped
     while env.instruments[0].metric[-1] < len(env.agents):
         env.step()
         if view:
             viewer.draw()
             # pygame.event.wait()
-            
-        # print(env.instruments[0].metric[-1])
+
+        print("num escaped: {}".format(env.instruments[0].metric[-1]))
 
     return env.instruments[0].metric
 

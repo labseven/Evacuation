@@ -85,7 +85,17 @@ for numAgents in settings['numAgents']:
                             }
 
 
-
+                        simulation_data = {
+                        "roomHeight":   roomHeight,
+                        "roomWidth":    roomWidth,
+                        "barrier":      { 'radius': .3, 'pos': Point(-1,0)},
+                        "doorWidth":    doorWidth,
+                        "numAgents":    numAgents,
+                        "agentMass":    agentMass,
+                        "desiredSpeed": desiredSpeed
+                        }
+                        print("running", simulation_data)
+                        
                         escapeTime = len(runSimulation(
                                           roomHeight=roomHeight,
                                           roomWidth=roomWidth,
