@@ -58,14 +58,14 @@ settings = {
     "roomHeight":   20,
     "roomWidth":    10,
     "barrier":      {
-                        'radius': logscalelinspace(0.5, 5, num=5),
+                        'radius': logscalelinspace(0.5, 5, num=4),
                         'xOffset': np.array([2,3]),
-                        'yOffset': logscalelinspace(0.01,1,num=4)
+                        'yOffset': logscalelinspace(0.01,1,num=3)
                     },
-    "doorWidth":    logscalelinspace(1, 5, num=20),
-    "numAgents":    logscalelinspace(50, 500, num=20, dtype=np.int),
+    "doorWidth":    logscalelinspace(2, 5, num=10),
+    "numAgents":    logscalelinspace(50, 500, num=10, dtype=np.int),
     "agentMass":    80,
-    "desiredSpeed": logscalelinspace(1, 7, num=20)
+    "desiredSpeed": logscalelinspace(1, 7, num=10)
 }
 
 
@@ -95,7 +95,7 @@ for numAgents in settings['numAgents']:
                         "desiredSpeed": desiredSpeed
                         }
                         print("running", simulation_data)
-                        
+
                         escapeTime = len(runSimulation(
                                           roomHeight=roomHeight,
                                           roomWidth=roomWidth,
@@ -104,7 +104,7 @@ for numAgents in settings['numAgents']:
                                           numAgents=numAgents,
                                           agentMass=agentMass,
                                           desiredSpeed=desiredSpeed,
-                                          view=False
+                                          view=True
                                           ))
 
                         simulation_data = {
