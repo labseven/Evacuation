@@ -65,7 +65,7 @@ settings = {
     "doorWidth":    logscalelinspace(2, 5, num=10),
     "numAgents":    logscalelinspace(50, 500, num=10, dtype=np.int),
     "agentMass":    80,
-    "desiredSpeed": logscalelinspace(1, 7, num=10)
+    "desiredSpeed": logscalelinspace(3, 11, num=10)
 }
 
 
@@ -88,7 +88,7 @@ for numAgents in settings['numAgents']:
                         simulation_data = {
                         "roomHeight":   roomHeight,
                         "roomWidth":    roomWidth,
-                        "barrier":      { 'radius': .3, 'pos': Point(-1,0)},
+                        "barrier":      barrier,
                         "doorWidth":    doorWidth,
                         "numAgents":    numAgents,
                         "agentMass":    agentMass,
@@ -108,7 +108,7 @@ for numAgents in settings['numAgents']:
                                           ))
 
                         simulation_data["escapeTime"] = escapeTime
-                        
+
                         results = results.append(simulation_data, ignore_index=True)
                         saveData()
 
