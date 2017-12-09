@@ -39,11 +39,11 @@ class Agent:
             return Point(1, 0)
 
         # If above the goal, move to top point
-        elif self.pos.y < p1.y:
+        elif self.pos.y - self.size < p1.y:
             return self.vectorTo(p1 + Point(0, .5)).norm()
 
         # If below the goal, move to bottom point
-        elif self.pos.y > p2.y:
+        elif self.pos.y + self.size > p2.y:
             return self.vectorTo(p2 - Point(0, .5)).norm()
 
         # If directly in front of the goal, move right
@@ -89,6 +89,14 @@ class Agent:
                 tangentUnitVector = -wallLine
             distance = -dotProduct(r, normalUnitVector)
 
+            # if wall cannot apply force on agent
+            #  (in the case of that intersection between wall and normal vector is not on wall.)
+            perpendicularPoint = self.pos + normalUnitVector * distance
+            if dotProduct(p1 - perpendicularPoint, p2 - perpendicularPoint) > 0:
+                nearDistance = min(self.vectorTo(p1).mag(), self.vectorTo(p2).mag())
+                if self.size < nearDistance:
+                    return Point(0, 0)
+
         else:  # wallType : circle
             normalUnitVector = (self.pos - wall.parameters["center"]).norm()
             tangentLine = Point(-normalUnitVector.y, normalUnitVector.x)  # rotate 90 degrees counterclockwise
@@ -111,7 +119,7 @@ class Agent:
 
         return self.calculateForce(overlap, self.velocity - other.velocity, tangentUnitVector, normalUnitVector)
 
-    # the shared part of wallForce() and pairForce()
+    # calculating each force(Psychological force and contacting force) of wallForce() and pairForce()
     def calculateForce(self, overlap, velocityDifference, tangentUnitVector, normalUnitVector):
         # psychological force
         psyForce = self.psychologicalForce(overlap)
@@ -139,3 +147,4 @@ class Agent:
 
 def dotProduct(vec1, vec2):
     return vec1.x * vec2.x + vec1.y * vec2.y
+
