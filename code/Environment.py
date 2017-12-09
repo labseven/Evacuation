@@ -9,6 +9,7 @@ import random
 
 from datetime import datetime
 import pickle
+import pandas
 
 DEBUG = False
 
@@ -186,7 +187,7 @@ def runSimulation(roomHeight=10,
         walls.append(Wall('circle', **{ 'center': Point(roomWidth + barrier['pos'].x, roomHeight//2 + barrier['pos'].y), 'radius': barrier['radius'] }))
 
     walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(roomWidth, 0) })) # Top
-    walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(0, roomHeight) })) # Left
+    # walls.append(Wall('line', **{ 'p1': Point(0,0), 'p2': Point(0, roomHeight) })) # Left
     walls.append(Wall('line', **{ 'p1': Point(0,roomHeight), 'p2': Point(roomWidth, roomHeight) })) # Bottom
 
     walls.append(Wall('line', **{ 'p1': Point(roomWidth,0), 'p2': Point(roomWidth, roomHeight/2 - doorWidth/2) })) # Top Doorway
@@ -206,7 +207,7 @@ def runSimulation(roomHeight=10,
         # Agent(size, mass, pos, goal, desiredSpeed = 4))
         size = randFloat(.25, .35)
         mass = agentMass
-        pos = Point(randFloat(.5, roomWidth/2 - .5), randFloat(.5,roomHeight-.5))
+        pos = Point(randFloat(.5, 2*roomWidth/3 - .5), randFloat(.5,roomHeight-.5))
         goal = goals[0]
 
         agents.append(Agent(size, mass, pos, goal, desiredSpeed=desiredSpeed))
@@ -217,7 +218,6 @@ def runSimulation(roomHeight=10,
         viewer = EnvironmentViewer(env)
 
         viewer.draw()
-        env.step()
 
     env.step()
 
@@ -225,9 +225,11 @@ def runSimulation(roomHeight=10,
     # Run until all agents have escaped
     while env.instruments[0].metric[-1] < len(env.agents):
         env.step()
-        viewer.draw()
-        print(env.instruments[0].metric[-1])
-        # pygame.event.wait()
+        if view:
+            viewer.draw()
+            # pygame.event.wait()
+            
+        # print(env.instruments[0].metric[-1])
 
     return env.instruments[0].metric
 
@@ -241,15 +243,13 @@ def runExperiment():
         time_to_escape.append(len(statistics))
 
     export = [x, time_to_escape]
-    with open("{}.pd".format(datetime.time()), "r") as outfile:
-        pickle.dump(export, outfile)
+    # with open("{}.pd".format(datetime.time()), "r") as outfile:
+    #     pickle.dump(export, outfile)
 
 
 if __name__ == '__main__':
-    simResult = runSimulation( view=True, desiredSpeed=4)
+    simResult = runSimulation( view=True, desiredSpeed=2, numAgents=500, roomHeight=20, roomWidth=10)
     print(simResult)
 
-    while True:
-        pass
     # thinkplot.plot(defaultExperiment)
     # thinkplot.show()
