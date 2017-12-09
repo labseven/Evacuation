@@ -50,7 +50,7 @@ def testDBExists(simulation, df):
 try:
     results = importData()
 except FileNotFoundError:
-    columns = ["roomHeight", "roomWidth", "barrier", "doorWidth", "numAgents", "agentMass", "desiredSpeed", "escapeTime"]
+    columns = ["roomHeight", "roomWidth", "barrier", "barrierRadius", "barrierPos", "doorWidth", "numAgents", "agentMass", "desiredSpeed", "escapeTime"]
     results = pd.DataFrame(columns=columns)
 
 
@@ -108,6 +108,8 @@ for numAgents in settings['numAgents']:
                                           ))
 
                         simulation_data["escapeTime"] = escapeTime
+                        simulation_data["barrierRadius"] = barrier['radius']
+                        simulation_data["barrierPos"] = str(barrier['pos'])
 
                         results = results.append(simulation_data, ignore_index=True)
                         saveData()
