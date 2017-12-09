@@ -4,12 +4,20 @@ Adam Novotny, Changjun Lim
 
 ## Abstract
 
-There have been various approaches to model the evacuation process of pedestrians, from an agent-based model [1] and a physical model [1, 2] to a cellular automaton model [3] and a game theory [4]. We replicate and extend the agent-based model proposed by Helbing, Farkas, and Vicsek [1], which describes pedestrian behaviors, including panic and jamming, with a generalized force model.
+There have been various approaches to model human walking dynamics, specifically in evacuation scenarios. Researcher have used tools ranging from agent-based models [1] and physical simulations, [1, 2] to cellular automaton models [3] and even game theory [4]. These models are useful for exploring the emergent behavior of pedestrians. Experiments modeling evacuations can help identify which features are the most important for reducing evacuation time.
 
-Yanagisawa et al. [5] find that placing a barrier in front of a narrow exit reduces pressure on the choke point and (surprisingly) reduces evacuation time. We recreate this behavior, and investigate how properties of the barrier affect egress time.
+Yanagisawa et al. [5] ran an experiment with real people to analyze human behavior during an evacuation. They found that a small barrier counter-intuitively reduces evacuation time. They suggest that the biggest bottleneck in an evacuation is resolving who goes through the doorway (described as 'conflicts'). By reducing the area in front of the door, the barrier reduces conflicts and speeds up evacuation time.
+
+Then, they modeled people as agents on a grid world to extrapolate findings about barrier placement. We adopt the agent-based physics model proposed by Helbing, Farkas, and Vicsek [1] to attempt to recreate the findings in a physics model. This model describes pedestrian behaviors, including panic and jamming, with a generalized force model.
+
+
+We recreate this behavior, and investigate how properties of the barrier affect egress time.
 
 ## Reproduction
-We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al. [1]. In their model, agents want to move at the desired velocity while keeping a distance from other agents and walls. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents).
+We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the code from Helbing et al. [1]. In their model, agents are simulated as circular masses with forces acting on them. Agents have a desired direction, and exert a force towards it. Agents also want to keep away from walls and other agents. This is modeled as a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents). Figure {} shows a visualization of all of the forces that we model.
+
+![visualization of forces on agents](media/agent_forces.png)
+> A visualization of the forces acting on an agent when near a wall, and when in contact with a wall
 
 ![visualization of model](media/room_without_barrier.png)
 > A visualization of the state of the model
