@@ -19,13 +19,10 @@ We create an agent-based physical simulation of people attempting to escape a ro
 ![visualization of forces on agents](media/agent_forces.png)
 > A visualization of the forces acting on an agent when near a wall, and when in contact with a wall
 
-![visualization of model](media/room_without_barrier.png)
-> A visualization of the state of the model
+![visualization of model](media/rooms_side_by_side.png)
+> A visualization of the model with and without a barrier. The lines are agents' desired direction
 
 We add a circular barrier in front of the doorway with r={} and analyze how evacuation time is affected.
-
-![Room with Barrier](media/room_with_barrier.png)
-> With a barrier
 
 We validate our model by comparing our plot for escape time vs desired speed to a plot from Helbing et al. [1].
 
