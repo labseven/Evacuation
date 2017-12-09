@@ -2,9 +2,9 @@ from Environment import *
 from Agent import *
 from Point import Point
 
-import pygame
-from pygame.locals import *
-from pygame.color import *
+# import pygame
+# from pygame.locals import *
+# from pygame.color import *
 import thinkplot
 import random
 import numpy as np
@@ -59,7 +59,7 @@ settings = {
     "roomWidth":    10,
     "barrier":      {
                         'radius': logscalelinspace(0.5, 5, num=4),
-                        'xOffset': np.array([2,3]),
+                        'xOffset': np.array([3,4]),
                         'yOffset': logscalelinspace(0.01,1,num=3)
                     },
     "doorWidth":    logscalelinspace(2, 5, num=10),
