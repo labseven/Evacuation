@@ -12,7 +12,7 @@ class Agent:
 
     def __init__(self, size, mass, pos, goal, desiredSpeed=4):
         # the constants
-        self.A = 200
+        self.A = 180
         self.B = 0.08
         self.tau = 0.5
         # instance variables
@@ -108,7 +108,7 @@ class Agent:
 
         overlap = self.size - distance
 
-        return self.calculateForce(overlap, self.velocity, tangentUnitVector, normalUnitVector)
+        return 3*self.calculateForce(overlap, self.velocity, tangentUnitVector, normalUnitVector)
 
     # the force between the agent and other agent
     def pairForce(self, other):
