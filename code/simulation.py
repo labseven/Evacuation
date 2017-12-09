@@ -62,7 +62,7 @@ settings = {
                         'xOffset': np.array([3,4]),
                         'yOffset': logscalelinspace(0.01,1,num=3)
                     },
-    "doorWidth":    logscalelinspace(2, 5, num=10),
+    "doorWidth":    logscalelinspace(1.5, 5, num=10),
     "numAgents":    logscalelinspace(50, 500, num=10, dtype=np.int),
     "agentMass":    80,
     "desiredSpeed": logscalelinspace(3, 11, num=10)
