@@ -57,7 +57,11 @@ except FileNotFoundError:
 settings = {
     "roomHeight":   20,
     "roomWidth":    10,
-    "barrier":      None,
+    "barrier":      {
+                        'radius': logscalelinspace(0.5, 5, num=4),
+                        'xOffset': np.array([3,4]),
+                        'yOffset': logscalelinspace(0.01,1,num=3)
+                    },
     "doorWidth":    logscalelinspace(2, 5, num=10),
     "numAgents":    logscalelinspace(50, 500, num=10, dtype=np.int),
     "agentMass":    80,
@@ -68,36 +72,44 @@ settings = {
 roomHeight = settings['roomHeight']
 roomWidth  = settings['roomWidth']
 agentMass  = settings['agentMass']
-barrier    = settings['barrier']
 
 for numAgents in settings['numAgents']:
     for doorWidth in settings['doorWidth']:
-        for desiredSpeed in settings['desiredSpeed']:
-            simulation_data = {
-            "roomHeight":   roomHeight,
-            "roomWidth":    roomWidth,
-            "barrier":      barrier,
-            "doorWidth":    doorWidth,
-            "numAgents":    numAgents,
-            "agentMass":    agentMass,
-            "desiredSpeed": desiredSpeed
-            }
-            print("running", simulation_data)
+        for radius in settings['barrier']['radius']:
+            for xOffset in settings['barrier']['xOffset']:
+                for yOffset in settings['barrier']['yOffset']:
+                    for desiredSpeed in settings['desiredSpeed']:
+                        barrier = {
+                            'radius':   radius,
+                            'pos':      Point(-(xOffset * radius), yOffset*doorWidth)
+                            }
 
-            escapeTime = len(runSimulation(
-                              roomHeight=roomHeight,
-                              roomWidth=roomWidth,
-                              barrier=barrier,
-                              doorWidth=doorWidth,
-                              numAgents=numAgents,
-                              agentMass=agentMass,
-                              desiredSpeed=desiredSpeed,
-                              view=True
-                              ))
 
-            simulation_data['escapeTime'] = escapeTime
+                        simulation_data = {
+                        "roomHeight":   roomHeight,
+                        "roomWidth":    roomWidth,
+                        "barrier":      { 'radius': .3, 'pos': Point(-1,0)},
+                        "doorWidth":    doorWidth,
+                        "numAgents":    numAgents,
+                        "agentMass":    agentMass,
+                        "desiredSpeed": desiredSpeed
+                        }
+                        print("running", simulation_data)
 
-            results = results.append(simulation_data, ignore_index=True)
-            saveData()
+                        escapeTime = len(runSimulation(
+                                          roomHeight=roomHeight,
+                                          roomWidth=roomWidth,
+                                          barrier=barrier,
+                                          doorWidth=doorWidth,
+                                          numAgents=numAgents,
+                                          agentMass=agentMass,
+                                          desiredSpeed=desiredSpeed,
+                                          view=False
+                                          ))
 
-            print(simulation_data)
+                        simulation_data["escapeTime"] = escapeTime
+                        
+                        results = results.append(simulation_data, ignore_index=True)
+                        saveData()
+
+                        print(simulation_data)
