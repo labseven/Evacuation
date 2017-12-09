@@ -4,16 +4,17 @@ Adam Novotny, Changjun Lim
 
 ## Abstract
 
-There have been various approaches to model human walking dynamics, specifically in evacuation scenarios. Researcher have used tools ranging from agent-based models [1] and physical simulations, [1, 2] to cellular automaton models [3] and even game theory [4]. These models are useful for exploring the emergent behavior of pedestrians. Experiments modeling evacuations can help identify which features are the most important for reducing evacuation time.
+There have been various approaches to model human walking dynamics, specifically in evacuation scenarios. Researchers have used tools ranging from agent-based models [1] and physical simulations, [1, 2] to cellular automaton models [3] and even game theory [4]. These models are useful for exploring the emergent behavior of pedestrians. Experiments modeling evacuations can help identify which features are the most important for reducing evacuation time.
 
 Yanagisawa et al. [5] ran an experiment with real people to analyze human behavior during an evacuation. They found that a small barrier counter-intuitively reduces evacuation time. They suggest that the biggest bottleneck in an evacuation is resolving who goes through the doorway (described as 'conflicts'). By reducing the area in front of the door, the barrier reduces conflicts and speeds up evacuation time.
 
 Then, they modeled people as agents on a grid world to extrapolate findings about barrier placement. We adopt the agent-based physics model proposed by Helbing, Farkas, and Vicsek [1] to attempt to recreate the findings in a physics model. This model describes pedestrian behaviors, including panic and jamming, with a generalized force model.
 
 
-We recreate this behavior, and investigate how properties of the barrier affect egress time.
+We recreate this behavior and investigate how properties of the barrier affect egress time.
 
 ## Reproduction
+
 We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the generalized force model of Helbing et al. [1]. In their model, agents want to move at the desired velocity while keeping a distance from other agents and walls. This is modeled as a self-driving force and a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents). Figure {} shows a visualization of all of the forces that we model.
 A self-driving force is proportional to the difference between the desired velocity and current velocity. The magnitude of the psychological force is an exponential function of the distance between surfaces of an agent and walls or other agents. So even if an agent is not contacting on other objects, there is a psychological force. This direction of the force is the direction of the distance(normal to the tangential line). The magnitude of friction and normal force is proportional to the overlapped length between an agent and walls or other agents. So there is no friction and normal force when an agent does not contact to other objects. We choose the coefficients of forces from the original paper [1].
 
