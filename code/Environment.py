@@ -11,6 +11,8 @@ from datetime import datetime
 import pickle
 import pandas
 
+import sys
+
 DEBUG = False
 
 
@@ -227,8 +229,9 @@ def runSimulation(roomHeight=10,
         if view:
             viewer.draw()
             # pygame.event.wait()
-
-        print("num escaped: {}".format(env.instruments[0].metric[-1]))
+        message = "num escaped: {}".format(env.instruments[0].metric[-1])
+        sys.stdout.write('\r' + str(message) + ' ' * 20)
+        sys.stdout.flush() # important
 
     return env.instruments[0].metric
 
