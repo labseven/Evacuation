@@ -104,7 +104,7 @@ class EnvironmentViewer():
     RED = Color(203, 20, 16)
     GOAL = Color(252, 148, 37)
 
-    pygameScale = 100
+    pygameScale = 50
 
     def __init__(self, environment):
         self.env = environment
@@ -255,7 +255,7 @@ def runExperiment():
 
 
 if __name__ == '__main__':
-    simResult = runSimulation( view=True, desiredSpeed=2, numAgents=500, roomHeight=20, roomWidth=10)
+    simResult = runSimulation(barrier=None, view=True, desiredSpeed=2, numAgents=50, roomHeight=20, roomWidth=10)
     print(simResult)
 
     # thinkplot.plot(defaultExperiment)

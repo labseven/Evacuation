@@ -33,7 +33,7 @@ class Point:
 
     @property
     def pygame(self):
-        return (int(self.x*100), int(self.y*100))
+        return (int(self.x*50), int(self.y*50))
 
     def mag(self):
         return sqrt((self.x ** 2) + (self.y ** 2))
