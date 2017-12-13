@@ -27,9 +27,6 @@ We had to tune some constants slightly to get a more realistic looking simulatio
 Figure 2 is a visualization of the simulated room and doorway. Agents crowd around the exit, trying to push their way out. On the right, we show a room with a barrier. The entrance has visibly less pressure on it, as the barrier blocks agents from approaching it straight on.
 
 
-![validation plot](media/sample_plot_evacuation_vs_desired_velocity.png)
-> Notice how the {}
-
 ![video](https://i.imgur.com/3LthHPN.gif)
 > A video of the agents evacuating. Notice minor resonance between neighbors
 
@@ -40,25 +37,23 @@ In our model, we noticed some spring-like behavior and resonance between agents.
 
 We then run the simulation with a parameter sweep to see how the parameters affect evacuation time. We plot the time it takes for all agents to exit the room.
 
-![sample plot](media/sample_plot_evacuation_vs_desired_velocity.png)
-> Sample plot output (note: we are not modeling injury)
+![barrier vs no barrier](media/Graph2_doorwidth_ratio.png)
+> Figure 3: The ratio of time between the same room with and without a barrier
 
-For n barrier sizes and positions (including no barrier):
-```
-{plot: escape time vs number of agents}
-{plot: escape time vs desired velocity}
-{plot: escape time vs door size}
-{plot: escape time vs barrier size (for a few door sizes)}
-{plot: escape time vs barrier placement (for a few sizes)}
-```
+![door size to evacuation time](media/Graph1_doorwidth_time.png)
+> Figure 4: The door width vs escape time
+
+
+Figure 3 shows the ratio of evacuation times between a room with a barrier and without. A value below 1 means the barrier sped up evacuation time. We can see that the barrier has little benefit, and for wider doors can slow down evacuation.
 
 We find that when the door is small (a strong bottleneck), a barrier in front of the door makes the evacuation quicker. Figure {} shows that time to evacuate is lower for a room with a barrier than one without. The explanation that others have suggested is that by blocking part of the pressure on the doorway, conflicts near the door are reduced.
 
 Another explanation is that the barrier parallelizes the bottlenecks. If the barrier creates two gaps approximately the size of a doorway, this is similar to doubling the bottlenecks. Now twice as many people should be able to go through. Once an agents gets through the gap, it can easily walk out the door as there is no crowd in the doorway.
 
-Generally though, the barrier had little effect. This indicates that either our model is not completely accurate (quite possible) or that the effect is very sensitive to placement and size of the barrier. We did not have the computational power to study these effects on a granular level. Further research should be done to analyze the relationship between precise barrier parameters and the evacuation time.
+Generally though, the barrier had little effect. We have found a few specific configurations of the barrier that result in much faster evacuations. This indicates that either our model is not completely accurate and we are over fitting the solution (quite possible) or that the effect is very sensitive to placement and size of the barrier. We did not have the computational power to study these effects on a granular level. Further research should be done to analyze the relationship between precise barrier parameters and the evacuation time.
 
-The most important parameter is the width of the door. We can see that the slope is very steep downwards until it saturates around {2.4} meters wide (for 49 people).
+
+The most important parameter is the width of the door. In Figure 4 we can see that the slope is very steep downwards until it saturates at 2.5 meters wide (for 49 people). This means it is very easy to optimize a door for evacuation, that is, make it wider.s
 
 
 ## Interpretation
