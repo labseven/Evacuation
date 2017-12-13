@@ -30,7 +30,7 @@ We validate our model by comparing our plot for escape time vs desired speed to 
 ![validation plot](media/sample_plot_evacuation_vs_desired_velocity.png)
 > Notice how the {}
 
-![video](https://i.imgur.com/3LthHPN.mp4)
+![video](https://i.imgur.com/3LthHPN.gif)
 > A bit of resonance
 
 In our model, we noticed some spring-like behavior between agents. They would run up to the wall, compress the entire crowd against it, and then expand back before settling to a densely packed configuration, trying to push to the door. Further tuning the agent's psychological force constants would decrease this springiness, and overall the physical model is realistic.
