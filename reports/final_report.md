@@ -6,35 +6,40 @@ Adam Novotny, Changjun Lim
 
 There have been various approaches to model human walking dynamics, specifically in evacuation scenarios. Researchers have used tools ranging from agent-based models [1] and physical simulations, [1, 2] to cellular automaton models [3] and even game theory [4]. These models are useful for exploring the emergent behavior of pedestrians. Experiments modeling evacuations can help identify which features are the most important for reducing evacuation time.
 
-Yanagisawa et al. [5] ran an experiment with real people to analyze human behavior during an evacuation. They found that a small barrier counter-intuitively reduces evacuation time. They suggest that the biggest bottleneck in an evacuation is resolving who goes through the doorway (described as 'conflicts'). By reducing the area in front of the door, the barrier reduces conflicts and speeds up evacuation time.
+Yanagisawa et al. [5] ran an experiment with real people to analyze human behavior during an evacuation. Counter-intuitively, they found that a small barrier reduces evacuation time. They suggest that the biggest bottleneck in an unorganized evacuation is resolving who goes through the doorway (described as 'conflicts'). By reducing the available area in front of the door, the barrier reduces conflicts and speeds up evacuation time.
 
-Then, they modeled people as agents on a grid world to extrapolate findings about barrier placement. We adopt the agent-based physics model proposed by Helbing, Farkas, and Vicsek [1] to attempt to recreate the findings. This model describes pedestrian behaviors, including panic and jamming, with a generalized force model.
-
-We also show that the door width affects evacuation time {like this} and that the barrier should be {this big} for fastest evacuations.
-
-We recreate this behavior and investigate how properties of the barrier affect egress time.
+Then, they modeled people as agents on a grid world to extrapolate findings about barrier placement. We adopt the agent-based physics model proposed by Helbing, Farkas, and Vicsek [1] to explore evacuation in a continuous world. This model describes pedestrian behaviors, including panic and jamming, with a generalized force model. We want to find whether a barrier actually reduces evacuation time, and what other parameters (door width, number of agents, etc.) are the most important for fast evacuations.
 
 ## Reproduction
 
-We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the generalized force model of Helbing et al. [1]. In their model, agents want to move at the desired velocity while keeping a distance from other agents and walls. This is modeled as a self-driving force and a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents). Figure {} shows a visualization of all of the forces that we model.
-A self-driving force is proportional to the difference between the desired velocity and current velocity. The magnitude of the psychological force is an exponential function of the distance between surfaces of an agent and walls or other agents. So even if an agent is not contacting on other objects, there is a psychological force. This direction of the force is the direction of the distance(normal to the tangential line). The magnitude of friction and normal force is proportional to the overlapped length between an agent and walls or other agents. So there is no friction and normal force when an agent does not contact to other objects. We choose the coefficients of forces from the original paper [1].
+We create an agent-based physical simulation of people attempting to escape a room through a narrow doorway. We based our model on the generalized force model of Helbing et al. [1]. In their model, agents want to move at the desired velocity while keeping a distance from other agents and walls. This is modeled as a self-driving force and a 'psychological force' which acts on each agent, in addition to the physical forces (friction and normal force from walls and other agents). Figure 1 shows a visualization of all of the forces that we model.
+A self-driving force is proportional to the difference between the desired velocity and current velocity. The magnitude of the psychological force is an exponential function of the distance between surfaces of an agent and walls or other agents. So even if an agent is not colliding with other objects, there is a psychological force repelling it. This direction of the force is the direction of the distance (normal to the tangential line). The magnitude of friction and normal force is proportional to the overlapped length between an agent and walls or other agents. So there is no friction and normal force when an agent is not in contact with other objects. We choose the coefficients of forces from the original paper [1].
 
 ![visualization of forces on agents](media/agent_forces.png)
-> A visualization of the forces acting on an agent when near a wall, and when in contact with a wall
+> Figure 1: A visualization of the forces acting on an agent when near another agent, and when in contact with a wall
 
 ![visualization of model](media/rooms_side_by_side.png)
-> A visualization of the model with and without a barrier. The lines are agents' desired direction
+> Figure 2: A visualization of the model with and without a barrier. The vectors from each agent are each agent's desired direction
 
-We add a circular barrier in front of the doorway with r={} and analyze how evacuation time is affected.
+Figure 2 is a visualization of the simulated room and doorway. Agents crowd around the exit, pushing themselves out. On the right, we show a room with a barrier. The entrance has visibly less force on it, as the barrier blocks agents from approaching it straight on.
+
+We analyze how changing the size of the barrier between 0.3 meters and 2 affects evacuation time.
 
 We validate our model by comparing our plot for escape time vs desired speed to a plot from Helbing et al. [1].
 
 ![validation plot](media/sample_plot_evacuation_vs_desired_velocity.png)
-> Note: our plot is not visible because it doesn't exist
+> Notice how the {}
+
+![video](https://i.imgur.com/3LthHPN.mp4)
+> A bit of resonance
+
+In our model, we noticed some spring-like behavior between agents. They would run up to the wall, compress the entire crowd against it, and then expand back before settling to a densely packed configuration, trying to push to the door. Further tuning the agent's psychological force constants would decrease this springiness, and overall the physical model is realistic.
+
 
 ## Different Barriers
 
-We then run the simulation multiple times to see how different parameters affect evacuation time.
+We then run the simulation with a parameter sweep to see how the parameters affect evacuation time. We plot the time it takes for all agents to exit the room.
+
 ![sample plot](media/sample_plot_evacuation_vs_desired_velocity.png)
 > Sample plot output (note: we are not modeling injury)
 
@@ -47,20 +52,19 @@ For n barrier sizes and positions (including no barrier):
 {plot: escape time vs barrier placement (for a few sizes)}
 ```
 
-We can see in the above plots that escape time {increases | decreases} when {door size | barrier size} changes.
+We also find that when the door is small, a barrier in front of the door makes the evacuation quicker.
+
+We can see that {the most drastic} change is caused by door size. When the door is 1.7m wide (about two agents) it takes 16 seconds to vacate the room. A 'room' with a door 19m wide (completely open) takes only 4 seconds to evacuate. In the middle, we can see that making the door a little wider decreases the evacuation time drastically (down to 10 seconds).
+
+
 
 The optimal escape time for n agents is a barrier at {size and position}.
 
-## Adding Panic
-Crowd dynamics also include panic. Panicked people want to go faster, and therefore push more against agents in their way.
-
-We {will} model panic when agents become impatient (eg. in a burning building).
-
 
 ## Interpretation
-We found that <>.
+We found that .
 
-But please do not put barriers in front of fire exits; human tendencies like assessing the worthiness of an exit were not modeled, and empirical tests should be run before rewriting the fire code.
+But please do not start putting barriers in front of fire exits; human tendencies like assessing the worthiness of an exit were not modeled, and more empirical tests should be run before rewriting the fire code.
 
 
 ## Annotated Bibliography
