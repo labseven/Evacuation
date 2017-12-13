@@ -35,7 +35,7 @@ In our model, we noticed some spring-like behavior and resonance between agents.
 
 ## Different Barriers
 
-We then run the simulation with a parameter sweep to see how the parameters affect evacuation time. We plot the time it takes for all agents to exit the room.
+We then run the simulation with a parameter sweep to see how the parameters affect evacuation time. We plot the time it takes for all agents to exit the room. All results are the average of two simulations. This is probably not enough averaging, but it is better than a single run and running physics on multiple bodies is extremely slow in python.
 
 ![barrier vs no barrier](media/Graph2_doorwidth_ratio.png)
 > Figure 3: The ratio of time between the same room with and without a barrier
@@ -44,11 +44,11 @@ We then run the simulation with a parameter sweep to see how the parameters affe
 > Figure 4: The door width vs escape time
 
 
-Figure 3 shows the ratio of evacuation times between a room with a barrier and without. A value below 1 means the barrier sped up evacuation time. We can see that the barrier has little benefit, and for wider doors can slow down evacuation.
+Figure 3 shows the ratio of evacuation times between a room with a barrier and without. A value below 1 means the barrier sped up evacuation time. We can see that the barrier has little benefit, and for wider doors can slow down evacuation. The bars show the minimum and maximum ratios for barrier sizes between 0.5 and 3 meters.
 
-We find that when the door is small (a strong bottleneck), a barrier in front of the door makes the evacuation quicker. Figure {} shows that time to evacuate is lower for a room with a barrier than one without. The explanation that others have suggested is that by blocking part of the pressure on the doorway, conflicts near the door are reduced.
+We find that when the door is small (a strong bottleneck), a barrier in front of the door makes the evacuation quicker. The explanation that others have suggested is that, by blocking part of the pressure on the doorway, conflicts near the door are reduced.
 
-Another explanation is that the barrier parallelizes the bottlenecks. If the barrier creates two gaps approximately the size of a doorway, this is similar to doubling the bottlenecks. Now twice as many people should be able to go through. Once an agents gets through the gap, it can easily walk out the door as there is no crowd in the doorway.
+Another explanation is that the barrier parallelizes the bottlenecks. If the barrier creates two gaps approximately the size of a doorway, this is similar to doubling the number of bottlenecks. Now, twice as many people should be able to go through. Once an agents gets through the gap, it can easily walk out the door as there is no crowd in the doorway.
 
 Generally though, the barrier had little effect. We have found a few specific configurations of the barrier that result in much faster evacuations. This indicates that either our model is not completely accurate and we are over fitting the solution (quite possible) or that the effect is very sensitive to placement and size of the barrier. We did not have the computational power to study these effects on a granular level. Further research should be done to analyze the relationship between precise barrier parameters and the evacuation time.
 
@@ -61,6 +61,10 @@ We have found that a barrier has the ability to speed up evacuation through a na
 
 So please do not start putting barriers in front of fire exits; human tendencies like assessing the worthiness of an exit were not modeled, and more empirical tests should be run before rewriting the fire code.
 
+
+## Review
+
+Generally, this project went all right. In the future, I would not write physics models in python, as running a single simulation with 100 agents took multiple minutes to complete. This was still okay to find data, but if it was 10-100x faster, we might have been able to find more meaningful conclusions.
 
 ## Annotated Bibliography
 
