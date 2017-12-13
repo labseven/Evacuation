@@ -31,9 +31,9 @@ We validate our model by comparing our plot for escape time vs desired speed to 
 > Notice how the {}
 
 ![video](https://i.imgur.com/3LthHPN.gif)
-> A bit of resonance
+> A video of the agents evacuating. Notice minor resonance between neighbors
 
-In our model, we noticed some spring-like behavior between agents. They would run up to the wall, compress the entire crowd against it, and then expand back before settling to a densely packed configuration, trying to push to the door. Further tuning the agent's psychological force constants would decrease this springiness, and overall the physical model is realistic.
+In our model, we noticed some spring-like behavior and resonance between agents. They would run up to the wall, the entire crowd would compress against it, and then expand back before settling into a densely packed configuration, trying to push towards the door. Further tuning the agent's psychological force constants would decrease this springiness, but overall the physical model is realistic.
 
 
 ## Different Barriers
@@ -52,19 +52,17 @@ For n barrier sizes and positions (including no barrier):
 {plot: escape time vs barrier placement (for a few sizes)}
 ```
 
-We also find that when the door is small, a barrier in front of the door makes the evacuation quicker.
+We find that when the door is small (a strong bottleneck), a barrier in front of the door makes the evacuation quicker. Figure {} shows that time to evacuate is lower for a room with a barrier than one without. The explanation that others have suggested is that by blocking force pushing straight to the door, conflicts near the door are reduced. Another explanation is that the barrier parallelizes the bottlenecks. Since there are twice as many bottlenecks, theoretically twice as many people should be able to go through. Once an agents shoves itself through the small gap, it can easily walk out the door.
 
-We can see that {the most drastic} change is caused by door size. When the door is 1.7m wide (about two agents) it takes 16 seconds to vacate the room. A 'room' with a door 19m wide (completely open) takes only 4 seconds to evacuate. In the middle, we can see that making the door a little wider decreases the evacuation time drastically (down to 10 seconds).
+Generally though, the barrier had little effect. This indicates that either our model is not completely accurate (quite possible) or that the effect is very sensitive to placement and size of the barrier. We did not have the computational power to study these effects on a granular level. Further research should be done to analyze the relationship between precise barrier parameters and the evacuation time.
 
-
-
-The optimal escape time for n agents is a barrier at {size and position}.
+The most important parameter is door width. When the door is 1.7m wide (about two agents) it takes 16 seconds to vacate 49 people from a room. A 'room' with a door 19m wide (completely open) takes only 4 seconds to evacuate. In between these, we can see that the slope is very steep downwards until it saturates around {2.4} meters wide (for 49 people).
 
 
 ## Interpretation
-We found that .
+We have found that a barrier has the ability to speed up evacuation through a narrow doorway. The effect is sensitive to doorway size, and further research should be done to discover the rules of designing a doorway barrier. We have shown that the barrier is almost unnecessary though, because widening the door has a much bigger effect on evacuation time.
 
-But please do not start putting barriers in front of fire exits; human tendencies like assessing the worthiness of an exit were not modeled, and more empirical tests should be run before rewriting the fire code.
+So please do not start putting barriers in front of fire exits; human tendencies like assessing the worthiness of an exit were not modeled, and more empirical tests should be run before rewriting the fire code.
 
 
 ## Annotated Bibliography
