@@ -35,7 +35,7 @@ In our model, we noticed some spring-like behavior and resonance between agents.
 
 ## Different Barriers
 
-We then run the simulation with a parameter sweep to see how the parameters affect evacuation time. We plot the time it takes for all agents to exit the room. All results are the average of two simulations. This is probably not enough averaging, but it is better than a single run and running physics on multiple bodies is extremely slow in python.
+We then run the simulation with a parameter sweep to see how the parameters affect evacuation time. We plot the time it takes for all agents to exit the room. We assume the case where 49 people, having a diameter uniformly distributed in the interval [0.5m, 0.7m], are leaving through a doorway. All results are the average of two simulations. This is probably not enough averaging, but it is better than a single run and running physics on multiple bodies is extremely slow in python.
 
 ![barrier vs no barrier](media/Graph2_doorwidth_ratio.png)
 > Figure 3: The ratio of time between the same room with and without a barrier
@@ -53,7 +53,7 @@ Another explanation is that the barrier parallelizes the bottlenecks. If the bar
 Generally though, the barrier had little effect. We have found a few specific configurations of the barrier that result in much faster evacuations. This indicates that either our model is not completely accurate and we are overfitting the solution (quite possible) or that the effect is very sensitive to placement and size of the barrier. We did not have the computational power to study these effects on a granular level. Further research should be done to analyze the relationship between precise barrier parameters and the evacuation time.
 
 
-The most important parameter is the width of the door. In Figure 4 we can see that the slope is very steep downwards until it saturates at 2.5 meters wide (for 49 people). This means it is very easy to optimize a door for evacuation, that is, make it wider.s
+The most important parameter is the width of the door. In Figure 4 we can see that the slope is very steep downwards until it saturates at 2.5 meters wide (for 49 people with an average diameter of 0.6m). This means it is very easy to optimize a door for evacuation, that is, by making it wider.
 
 
 ## Interpretation
