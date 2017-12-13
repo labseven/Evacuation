@@ -30,7 +30,7 @@ Figure 2 is a visualization of the simulated room and doorway. Agents crowd arou
 ![video](https://i.imgur.com/3LthHPN.gif)
 > A video of the agents evacuating. Notice minor resonance between neighbors
 
-In our model, we noticed some spring-like behavior and resonance between agents. The crowd would run up to the wall and compress against it, then expand backwards before settling into a densely packed configuration. Further tuning the agent's psychological force constants would decrease this springiness, but overall the physical model is realistic.
+In our model, we noticed some spring-like behavior and resonance between agents. The crowd would run up to the wall and compress against it, then expand backward before settling into a densely packed configuration. Further tuning the agent's psychological force constants would decrease this springiness, but overall the physical model is realistic.
 
 
 ## Different Barriers
@@ -48,9 +48,9 @@ Figure 3 shows the ratio of evacuation times between a room with a barrier and w
 
 We find that when the door is small (a strong bottleneck), a barrier in front of the door makes the evacuation quicker. The explanation that others have suggested is that, by blocking part of the pressure on the doorway, conflicts near the door are reduced.
 
-Another explanation is that the barrier parallelizes the bottlenecks. If the barrier creates two gaps approximately the size of a doorway, this is similar to doubling the number of bottlenecks. Now, twice as many people should be able to go through. Once an agents gets through the gap, it can easily walk out the door as there is no crowd in the doorway.
+Another explanation is that the barrier parallelizes the bottlenecks. If the barrier creates two gaps approximately the size of a doorway, this is similar to doubling the number of bottlenecks. Now, twice as many people should be able to go through. Once an agent gets through the gap, it can easily walk out the door as there is no crowd in the doorway.
 
-Generally though, the barrier had little effect. We have found a few specific configurations of the barrier that result in much faster evacuations. This indicates that either our model is not completely accurate and we are over fitting the solution (quite possible) or that the effect is very sensitive to placement and size of the barrier. We did not have the computational power to study these effects on a granular level. Further research should be done to analyze the relationship between precise barrier parameters and the evacuation time.
+Generally though, the barrier had little effect. We have found a few specific configurations of the barrier that result in much faster evacuations. This indicates that either our model is not completely accurate and we are overfitting the solution (quite possible) or that the effect is very sensitive to placement and size of the barrier. We did not have the computational power to study these effects on a granular level. Further research should be done to analyze the relationship between precise barrier parameters and the evacuation time.
 
 
 The most important parameter is the width of the door. In Figure 4 we can see that the slope is very steep downwards until it saturates at 2.5 meters wide (for 49 people). This means it is very easy to optimize a door for evacuation, that is, make it wider.s
@@ -90,10 +90,10 @@ Varas, Cornejo, Mainemer, Toldeo, Rogan, Munoz and Valdivia simulate the behavio
 
 Lo, S. M., Huang, H. C., Wang, P., & Yuen, K. K. (2006). A game theory based exit selection model for evacuation. Fire Safety Journal, 41(5), 364-369.
 
-Lo, Huang, Wang and Yuen integrate non-cooperative game theory with evacuation model to study the behavioral reaction of the evacuees. Their non-cooperative game theory model has been established to test how how the evacuation pattern will be affected by rational interaction between evacuees. In their model, evacuees perceive the actions of others and the environmental condition and decide their escape route. They fuind the mixed-strategry _Nash Equilibrium_ for the game which describes the congestion states of exits. They suggest to examine the effect of familiarity and 'grouping' effect on further studies.
+Lo, Huang, Wang and Yuen integrate non-cooperative game theory with evacuation model to study the behavioral reaction of the evacuees. Their non-cooperative game theory model has been established to test how the evacuation pattern will be affected by a rational interaction between evacuees. In their model, evacuees perceive the actions of others and the environmental condition and decide their escape route. They found the mixed-strategy _Nash Equilibrium_ for the game which describes the congestion states of exits. They suggest examining the effect of familiarity and 'grouping' effect on further studies.
 
 [5] [Introduction of frictional and turning function for pedestrian outflow with an obstacle.](https://arxiv.org/pdf/0906.0224)
 
 Yanagisawa, D., Kimura, A., Tomoeda, A., Nishi, R., Suma, Y., Ohtsuka, K., & Nishinari, K. (2009). Introduction of frictional and turning function for pedestrian outflow with an obstacle. Physical Review E, 80(3), 036110.
 
-Yanagisawa et al. explore how a barrier affects evacuation time in a simulation and emperical experiment.
+Yanagisawa et al. explore how a barrier affects evacuation time in a simulation and empirical experiment.
